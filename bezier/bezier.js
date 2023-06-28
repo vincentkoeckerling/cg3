@@ -1,93 +1,106 @@
-// import * as THREE from 'three';
-
-// const canvasElement = document.getElementById('canvas')
-
-// const renderer = new THREE.WebGLRenderer();
-// renderer.setSize( canvasElement.clientWidth, canvasElement.clientHeight );
-// canvasElement.appendChild( renderer.domElement );
-
-// const width = 100
-// const height = 100
-
-// const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
-// // const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
-// camera.position.set( 0, 0, 10 );
-// camera.lookAt( 0, 0, 0 );
-
-// const scene = new THREE.Scene();
-
-// // //create a blue LineBasicMaterial
-// // const material = new THREE.LineBasicMaterial( { color: 0x00ffff } );
-// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-
-
-// // const points = [];
-// // points.push( new THREE.Vector3( - 5, 0, 0 ) );
-// // points.push( new THREE.Vector3( 0, 5, 0 ) );
-// // points.push( new THREE.Vector3( 5, 0, 0 ) );
-
-// // const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
-
-// // const line = new THREE.Line( lineGeometry, material );
-
-// // const circleGeomtry = new THREE.CircleGeometry(2, 32)
-
-// // const circle = new THREE.Mesh(circleGeomtry, material)
-
-// // scene.add( line );
-// // scene.add(circle)
-
-// const heartShape = new THREE.Shape();
-
-// heartShape.moveTo( 25, 25 );
-// heartShape.bezierCurveTo( 25, 25, 20, 0, 0, 0 );
-// heartShape.bezierCurveTo( - 30, 0, - 30, 35, - 30, 35 );
-// heartShape.bezierCurveTo( - 30, 55, - 10, 77, 25, 95 );
-// heartShape.bezierCurveTo( 60, 77, 80, 55, 80, 35 );
-// heartShape.bezierCurveTo( 80, 35, 80, 0, 50, 0 );
-// heartShape.bezierCurveTo( 35, 0, 25, 25, 25, 25 );
-
-// const extrudeSettings = { 
-// 	depth: 8, 
-// 	bevelEnabled: true, 
-// 	bevelSegments: 2, 
-// 	steps: 2, 
-// 	bevelSize: 1, 
-// 	bevelThickness: 1 
-// };
-
-// const geometry = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );
-
-// const mesh = new THREE.Mesh( geometry, material );
-
-// scene.add( mesh )
-
-// renderer.render( scene, camera );
-
 import Two from 'two.js'
 
+let t = 0.5
+document.getElementById('t-range').addEventListener('input', (e) => t = e.currentTarget.value)
+
 const canvasElement = document.getElementById('canvas')
-const two = new Two().appendTo(canvasElement)
+const two = new Two({ fitted: true }).appendTo(canvasElement)
 
-var radius = 50;
-var x = two.width * 0.5;
-var y = two.height * 0.5 - radius * 1.25;
-var circle = two.makeCircle(x, y, radius);
+const point1 = createControlPoint(two.width / 8 * 1, two.height / 8 * 5)
+const point2 = createControlPoint(two.width / 8 * 2, two.height / 4)
+const point3 = createControlPoint(two.width / 8 * 6, two.height / 4)
+const point4 = createControlPoint(two.width / 8 * 7, two.height / 8 * 5)
 
-y = two.height * 0.5 + radius * 1.25;
-var width = 100;
-var height = 100;
-var rect = two.makeRectangle(x, y, width, height);
+const line12 = createLine(point1, point2)
+const line23 = createLine(point2, point3)
+const line34 = createLine(point3, point4)
 
-// The object returned has many stylable properties:
-circle.fill = '#FF8000';
-// And accepts all valid CSS color:
-circle.stroke = 'orangered';
-circle.linewidth = 5;
+const point12 = createInterpolPoint(point1, point2)
+const point23 = createInterpolPoint(point2, point3)
+const point34 = createInterpolPoint(point3, point4)
 
-rect.fill = 'rgb(0, 200, 255)';
-rect.opacity = 0.75;
-rect.noStroke();
+const line12_23 = createLine(point12.point, point23.point)
+const line23_34 = createLine(point23.point, point34.point)
 
-// Don’t forget to tell two to draw everything to the screen
-two.update();
+const point12_23 = createInterpolPoint(point12.point, point23.point)
+const point23_34 = createInterpolPoint(point23.point, point34.point)
+
+const line12_23__23_34 = createLine(point12_23.point, point23_34.point)
+const point12_23__23_34 = createInterpolPoint(point12_23.point, point23_34.point)
+
+function render() {
+	line12.update()
+	line23.update()
+	line34.update()
+
+	point12.update(t)
+	point23.update(t)
+	point34.update(t)
+
+	line12_23.update()
+	line23_34.update()
+
+	point12_23.update(t)
+	point23_34.update(t)
+
+	line12_23__23_34.update()
+
+	point12_23__23_34.update(t)
+}
+
+two.bind('update', render)
+two.play()
+
+let currentClickedPoint = null
+
+canvasElement.addEventListener('mouseup', () => currentClickedPoint = null)
+canvasElement.addEventListener('mouseleave', () => currentClickedPoint = null)
+canvasElement.addEventListener('mousemove', (e) => {
+	if (currentClickedPoint === null) return
+
+	currentClickedPoint.position.x += e.movementX * 1.25
+	currentClickedPoint.position.y += e.movementY * 1.25
+})
+
+function createControlPoint(x, y) {
+	const point = two.makeCircle(x, y, 15)
+
+	two.update()
+	point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
+
+	return point
+}
+
+function createLine(point1, point2) {
+	const line = two.makeLine(point1.position.x, point1.position.y, point2.position.x, point2.position.y)
+
+	function update() {
+		line.vertices[0].x = point1.position.x
+		line.vertices[0].y = point1.position.y
+		line.vertices[1].x = point2.position.x
+		line.vertices[1].y = point2.position.y
+	}
+
+	return {
+		line,
+		update
+	}
+}
+
+function createInterpolPoint(point1, point2) {
+	const point = two.makeCircle(0, 0, 15)
+
+	function update(t) {
+		point.position.x = lerp(point1.position.x, point2.position.x, t)
+		point.position.y = lerp(point1.position.y, point2.position.y, t)
+	}
+
+	return {
+		point,
+		update
+	}
+}
+
+function lerp(a, b, t) {
+	return (1-t) * a + t * b
+}
