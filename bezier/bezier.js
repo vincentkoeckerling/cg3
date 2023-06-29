@@ -21,7 +21,7 @@ const two = new Two({ fitted: true }).appendTo(canvasElement)
 const resultPath = two.makePath()
 resultPath.noFill()
 resultPath.closed = false
-resultPath.linewidth = 2
+resultPath.linewidth = 5
 resultPath.stroke = '#408ed0';
 
 // Lines
@@ -48,19 +48,20 @@ const point2 = makeDraggableCircle(two.width / 8 * 2, two.height / 4)
 const point3 = makeDraggableCircle(two.width / 8 * 6, two.height / 4)
 const point4 = makeDraggableCircle(two.width / 8 * 7, two.height / 8 * 5)
 
-const point1_2 = two.makeCircle(0, 0, 10)
-const point2_3 = two.makeCircle(0, 0, 10)
-const point3_4 = two.makeCircle(0, 0, 10)
+const point1_2 = makeInterpolCircle('#8ED040', '#a2ef4a')
+const point2_3 = makeInterpolCircle('#8ED040', '#a2ef4a')
+const point3_4 = makeInterpolCircle('#8ED040', '#a2ef4a')
 
-const point1_2__2_3 = two.makeCircle(0, 0, 10)
-const point2_3__3_4 = two.makeCircle(0, 0, 10)
+const point1_2__2_3 = makeInterpolCircle('#D0408E', '#f04aa2')
+const point2_3__3_4 = makeInterpolCircle('#D0408E', '#f04aa2')
 
 const interpolationPoints = [
 	point1_2, point2_3, point3_4,
 	point1_2__2_3, point2_3__3_4
 ]
 
-const resultPoint = two.makeCircle(0, 0, 10)
+const resultPoint = two.makeCircle(0, 0, 12)
+resultPoint.stroke = '#b5b5b5'
 
 // Update
 
@@ -142,7 +143,10 @@ canvasElement.addEventListener('mousemove', (e) => {
 })
 
 function makeDraggableCircle(x, y) {
-	const point = two.makeCircle(x, y, 15)
+	const point = two.makeCircle(x, y, 10)
+	point.fill = '#408ed0'
+	point.stroke = '#50b2ff'
+	point.linewidth = 10
 
 	two.update()
 	point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
@@ -152,8 +156,19 @@ function makeDraggableCircle(x, y) {
 
 // Util
 
+function makeInterpolCircle(colorInner, colorOuter) {
+	const circle = two.makeCircle(0, 0, 5)
+	circle.fill = colorInner
+	circle.stroke = colorOuter
+	circle.linewidth = 5
+
+	return circle
+}
+
 function makeLine() {
 	const line = two.makeLine(0, 0, 0, 0)
+	line.stroke = '#d2ecff'
+	line.linewidth = 2
 
 	function setPosition(index, vector) {
 		line.vertices[index].x = vector.x
