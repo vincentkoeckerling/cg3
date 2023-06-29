@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,48 @@
 	<script type="module" src="/bezier/bezier.js"></script>
 	<link rel="stylesheet" href="/style.css">
 </head>
-<body>
-	<div id="canvas"></div>
+
+<body class="has-background-light">
+	<div class="section is-full-height">
+		<div class="columns is-full-height is-align-items-stretch">
+			<div class="column">
+				<div class="box is-full-height">
+					<div class="is-full-height" id="canvas"></div>
+				</div>
+			</div>
+			<div class="sidebar column">
+				<div class="box">
+					<h1 class="is-size-3">Bézierkurven</h1>
+					<div class="is-flex is-align-items-center mt-5">
+						<div class="is-flex-shrink-0 is-align-items-center is-flex mr-4">
+							<span class="is-flex-shrink-0 is-size-4 is-italic is-family-roman">t = &nbsp;</span>
+							<input class="t-value input is-small" type="number" max="1" min="0" step="0.01" value="0.5">
+						</div>
+						<input class="t-value slider is-fullwidth is-info is-circle" type="range" min="0" max="1" step="0.001"
+							value="0.5">
+					</div>
+					<div class="is-flex is-justify-content-end">
+						<button id="play-button" class="button is-info is-light">Play</button>
+					</div>
+					<h2 class="is-size-4 mt-5">Anzeigen</h2>
+					<div class="field">
+						<div class="control">
+							<label class="checkbox">
+								<input id="show-points" type="checkbox">
+								Zwischenpunkte anzeigen
+							</label>
+						</div>
+						<div class="control">
+							<label class="checkbox">
+								<input id="show-lines" type="checkbox">
+								Linien anzeigen
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

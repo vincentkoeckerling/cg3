@@ -1,5 +1,22 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+@import 'https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css';
+
+body > .section {
+	height: 100vh;
+}
+
 #canvas {
-	height: 800px;
-	aspect-ratio: 1 / 1;
-	background-color: aliceblue;
+	background-color: #eff5fb;
+}
+
+.sidebar {
+	max-width: 500px;;
+}
+
+.is-family-roman {
+	font-family: 'Times New Roman', Times, serif;
+}
+
+.is-full-height {
+	height: 100%;
 }
