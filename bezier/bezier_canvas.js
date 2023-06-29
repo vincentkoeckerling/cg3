@@ -3,7 +3,7 @@ import { ControlCenter } from './control_center.js'
 
 const controlCenter = new ControlCenter()
 
-const canvasElement = document.getElementById('canvas')
+const canvasElement = document.getElementById('bezier_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
 
 // -- Setup
