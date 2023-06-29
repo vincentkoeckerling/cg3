@@ -12,6 +12,8 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "mathjs": "^11.8.2",
+    "nerdamer": "^1.1.13",
     "three": "^0.153.0",
     "two.js": "^0.8.10"
   }
