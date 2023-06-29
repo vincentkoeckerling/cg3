@@ -7,7 +7,7 @@ function setT(newValue) {
 	tValueInputs.forEach(input => input.value = t)
 }
 
-tValueInputs.forEach(input => input.addEventListener('input', (e) => setT(e.currentTarget.value)))
+tValueInputs.forEach(input => input.addEventListener('input', (e) => setT(parseFloat(e.currentTarget.value))))
 
 let interval = null
 document.getElementById('play-button').addEventListener('click', (e) => {
