@@ -43,14 +43,14 @@ resultPath.stroke = '#408ed0';
 
 // Lines
 
-const line1_2 = makeLine()
-const line2_3 = makeLine()
-const line3_4 = makeLine()
+const line1_2 = makeLine('#408ed0')
+const line2_3 = makeLine('#408ed0')
+const line3_4 = makeLine('#408ed0')
 
-const line1_2__2_3 = makeLine()
-const line2_3__3_4 = makeLine()
+const line1_2__2_3 = makeLine('#8ED040')
+const line2_3__3_4 = makeLine('#8ED040')
 
-const line1_2_3_4 = makeLine()
+const line1_2_3_4 = makeLine('#D0408E')
 
 const lines = [
 	line1_2, line2_3, line3_4,
@@ -123,7 +123,7 @@ function update() {
 
 	resultPath.vertices.length = 0
 
-	for (let t = 0; t <= 1; t += 0.01) {
+	for (let t = 0; t <= 1.001; t += 0.01) {
 		const position = cubicBezier(position1, position2, position3, position4, t)
 		resultPath.vertices.push(position)
 	}
@@ -182,9 +182,9 @@ function makeInterpolCircle(colorInner, colorOuter) {
 	return circle
 }
 
-function makeLine() {
+function makeLine(color) {
 	const line = two.makeLine(0, 0, 0, 0)
-	line.stroke = '#d2ecff'
+	line.stroke = color
 	line.linewidth = 2
 
 	function setPosition(index, vector) {
