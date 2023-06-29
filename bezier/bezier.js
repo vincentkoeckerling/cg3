@@ -137,8 +137,8 @@ canvasElement.addEventListener('mouseleave', () => currentClickedPoint = null)
 canvasElement.addEventListener('mousemove', (e) => {
 	if (currentClickedPoint === null) return
 
-	currentClickedPoint.position.x += e.movementX * 1.25
-	currentClickedPoint.position.y += e.movementY * 1.25
+	currentClickedPoint.position.x += e.movementX
+	currentClickedPoint.position.y += e.movementY
 })
 
 function makeDraggableCircle(x, y) {
