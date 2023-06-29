@@ -1,7 +1,17 @@
 import Two from 'two.js'
 
 let t = 0.5
-document.getElementById('t-range').addEventListener('input', (e) => t = e.currentTarget.value)
+const tValueInputs = Array.from(document.querySelectorAll('.t-value'))
+tValueInputs.forEach(input => input.addEventListener('input', (e) => {
+	t = e.currentTarget.value
+	tValueInputs.forEach(input => input.value = t)
+}))
+
+let interpolationPointsVisible = false
+document.getElementById('show-points').addEventListener('change', (e) => interpolationPointsVisible = e.currentTarget.checked)
+
+let linesVisible = false
+document.getElementById('show-lines').addEventListener('change', (e) => linesVisible = e.currentTarget.checked)
 
 const canvasElement = document.getElementById('canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
@@ -24,6 +34,12 @@ const line2_3__3_4 = makeLine()
 
 const line1_2_3_4 = makeLine()
 
+const lines = [
+	line1_2, line2_3, line3_4,
+	line1_2__2_3, line2_3__3_4,
+	line1_2_3_4
+]
+
 // Circles
 
 const point1 = makeDraggableCircle(two.width / 8 * 1, two.height / 8 * 5)
@@ -37,6 +53,11 @@ const point3_4 = two.makeCircle(0, 0, 10)
 
 const point1_2__2_3 = two.makeCircle(0, 0, 10)
 const point2_3__3_4 = two.makeCircle(0, 0, 10)
+
+const interpolationPoints = [
+	point1_2, point2_3, point3_4,
+	point1_2__2_3, point2_3__3_4
+]
 
 const resultPoint = two.makeCircle(0, 0, 10)
 
@@ -86,6 +107,20 @@ function update() {
 	for (let t = 0; t <= 1; t += 0.01) {
 		const position = cubicLerp(position1, position2, position3, position4, t)
 		resultPath.vertices.push(vectorToAnchor(position))
+	}
+
+	// Visibility
+
+	if (interpolationPointsVisible) {
+		interpolationPoints.forEach(point => point.opacity = 1.0)
+	} else {
+		interpolationPoints.forEach(point => point.opacity = 0.0)
+	}
+
+	if (linesVisible) {
+		lines.forEach(line => line.line.opacity = 1.0)
+	} else {
+		lines.forEach(line => line.line.opacity = 0.0)
 	}
 }
 

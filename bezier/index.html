@@ -8,7 +8,42 @@
 	<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-	<input type="range" name="" id="t-range" min="0" max="1" step="0.001">
-	<div id="canvas"></div>
+	<div class="columns">
+		<div class="column is-narrow">
+			<div id="canvas"></div>
+		</div>
+		<div class="column">
+			<div class="card">
+				<div class="card-content">
+					<h1 class="is-size-3">Bezier Kurven</h1>
+					<div class="level">
+						<div class="level-left">
+							<div class="level-item">
+								<span class="is-size-4 is-italic is-family-roman">t = </span>
+							</div>
+							<div class="level-item">
+								<input class="t-value input is-small" type="number" max="1" min="0" step="0.01" value="0.5">
+							</div>
+						</div>
+						<div class="level-item ml-4">
+							<input class="t-value slider is-fullwidth is-info is-circle" type="range" min="0" max="1" step="0.001" value="0.5">
+						</div>
+					</div>
+					<div>
+						<label class="checkbox">
+							<input id="show-points" type="checkbox" value="on">
+							Zwischenpunkte anzeigen
+						</label>
+					</div>
+					<div>
+						<label class="checkbox">
+							<input id="show-lines" type="checkbox" value="on">
+							Linien anzeigen
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
