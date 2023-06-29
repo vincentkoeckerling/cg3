@@ -1,34 +1,7 @@
 import Two from 'two.js'
+import { ControlCenter } from './control_center.js'
 
-let t = 0.5
-const tValueInputs = Array.from(document.querySelectorAll('.t-value'))
-function setT(newValue) {
-	t = newValue
-	tValueInputs.forEach(input => input.value = t)
-}
-
-tValueInputs.forEach(input => input.addEventListener('input', (e) => setT(parseFloat(e.currentTarget.value))))
-
-let interval = null
-document.getElementById('play-button').addEventListener('click', (e) => {
-	const button = e.currentTarget
-	if (interval === null) {
-		interval = setInterval(() => setT((t + 0.001) % 1.0), 5)
-		button.textContent = 'Pause'
-		tValueInputs.forEach(input => input.disabled = true)
-	} else {
-		clearInterval(interval)
-		interval = null
-		button.textContent = 'Play'
-		tValueInputs.forEach(input => input.disabled = false)
-	}
-})
-
-let interpolationPointsVisible = false
-document.getElementById('show-points').addEventListener('change', (e) => interpolationPointsVisible = e.currentTarget.checked)
-
-let linesVisible = false
-document.getElementById('show-lines').addEventListener('change', (e) => linesVisible = e.currentTarget.checked)
+const controlCenter = new ControlCenter()
 
 const canvasElement = document.getElementById('canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
@@ -83,6 +56,8 @@ resultPoint.stroke = '#b5b5b5'
 // Update
 
 function update() {
+	const t = controlCenter.t
+
 	const position1 = point1.position
 	const position2 = point2.position
 	const position3 = point3.position
@@ -130,13 +105,13 @@ function update() {
 
 	// Visibility
 
-	if (interpolationPointsVisible) {
+	if (controlCenter.interpolationPointsVisible) {
 		interpolationPoints.forEach(point => point.opacity = 1.0)
 	} else {
 		interpolationPoints.forEach(point => point.opacity = 0.0)
 	}
 
-	if (linesVisible) {
+	if (controlCenter.linesVisible) {
 		lines.forEach(line => line.line.opacity = 1.0)
 	} else {
 		lines.forEach(line => line.line.opacity = 0.0)
