@@ -1,6 +1,10 @@
+let instance = null
+
 export class ControlCenter {
 
 	constructor() {
+		if (instance !== null) return instance
+
 		this.t = 0.5
 		this.tValueInputs = Array.from(document.querySelectorAll('.t-value'))
 		this.interval = null
@@ -26,6 +30,8 @@ export class ControlCenter {
 
 		document.getElementById('show-points').addEventListener('change', (e) => this.interpolationPointsVisible = e.currentTarget.checked)
 		document.getElementById('show-lines').addEventListener('change', (e) => this.linesVisible = e.currentTarget.checked)
+
+		instance = this
 	}
 
 	setT(newValue) {
