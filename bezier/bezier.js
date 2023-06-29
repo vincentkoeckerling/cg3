@@ -21,7 +21,8 @@ const two = new Two({ fitted: true }).appendTo(canvasElement)
 const resultPath = two.makePath()
 resultPath.noFill()
 resultPath.closed = false
-resultPath.stroke = 'rgb(0, 0, 255)';
+resultPath.linewidth = 2
+resultPath.stroke = '#408ed0';
 
 // Lines
 
@@ -106,7 +107,7 @@ function update() {
 
 	for (let t = 0; t <= 1; t += 0.01) {
 		const position = cubicLerp(position1, position2, position3, position4, t)
-		resultPath.vertices.push(vectorToAnchor(position))
+		resultPath.vertices.push(position)
 	}
 
 	// Visibility
@@ -155,8 +156,8 @@ function makeLine() {
 	const line = two.makeLine(0, 0, 0, 0)
 
 	function setPosition(index, vector) {
-		line.vertices[index].x = vectorToAnchor(vector).x
-		line.vertices[index].y = vectorToAnchor(vector).y
+		line.vertices[index].x = vector.x
+		line.vertices[index].y = vector.y
 	}
 
 	return {
@@ -168,10 +169,6 @@ function makeLine() {
 			setPosition(1, vector)
 		}
 	}
-}
-
-function vectorToAnchor(vector) {
-	return new Two.Anchor(vector.x, vector.y)
 }
 
 // DeCasteljau
