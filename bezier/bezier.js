@@ -2,10 +2,27 @@ import Two from 'two.js'
 
 let t = 0.5
 const tValueInputs = Array.from(document.querySelectorAll('.t-value'))
-tValueInputs.forEach(input => input.addEventListener('input', (e) => {
-	t = e.currentTarget.value
+function setT(newValue) {
+	t = newValue
 	tValueInputs.forEach(input => input.value = t)
-}))
+}
+
+tValueInputs.forEach(input => input.addEventListener('input', (e) => setT(e.currentTarget.value)))
+
+let interval = null
+document.getElementById('play-button').addEventListener('click', (e) => {
+	const button = e.currentTarget
+	if (interval === null) {
+		interval = setInterval(() => setT((t + 0.001) % 1.0), 5)
+		button.textContent = 'Pause'
+		tValueInputs.forEach(input => input.disabled = true)
+	} else {
+		clearInterval(interval)
+		interval = null
+		button.textContent = 'Play'
+		tValueInputs.forEach(input => input.disabled = false)
+	}
+})
 
 let interpolationPointsVisible = false
 document.getElementById('show-points').addEventListener('change', (e) => interpolationPointsVisible = e.currentTarget.checked)
