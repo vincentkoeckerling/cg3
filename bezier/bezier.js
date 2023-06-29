@@ -77,10 +77,10 @@ function update() {
 	point2_3.position = lerp(position2, position3, t)
 	point3_4.position = lerp(position3, position4, t)
 
-	point1_2__2_3.position = quadraticLerp(position1, position2, position3, t)
-	point2_3__3_4.position = quadraticLerp(position2, position3, position4, t)
+	point1_2__2_3.position = quadraticBezier(position1, position2, position3, t)
+	point2_3__3_4.position = quadraticBezier(position2, position3, position4, t)
 
-	resultPoint.position = cubicLerp(position1, position2, position3, position4, t)
+	resultPoint.position = cubicBezier(position1, position2, position3, position4, t)
 
 	// Lines
 
@@ -99,15 +99,15 @@ function update() {
 	line2_3__3_4.position1 = lerp(position2, position3, t)
 	line2_3__3_4.position2 = lerp(position3, position4, t)
 
-	line1_2_3_4.position1 = quadraticLerp(position1, position2, position3, t)
-	line1_2_3_4.position2 = quadraticLerp(position2, position3, position4, t)
+	line1_2_3_4.position1 = quadraticBezier(position1, position2, position3, t)
+	line1_2_3_4.position2 = quadraticBezier(position2, position3, position4, t)
 
 	// Result path
 
 	resultPath.vertices.length = 0
 
 	for (let t = 0; t <= 1; t += 0.01) {
-		const position = cubicLerp(position1, position2, position3, position4, t)
+		const position = cubicBezier(position1, position2, position3, position4, t)
 		resultPath.vertices.push(position)
 	}
 
@@ -188,14 +188,14 @@ function makeLine() {
 
 // DeCasteljau
 
-function cubicLerp(a, b, c, d, t) {
-	const ab_bc = quadraticLerp(a, b, c, t)
-	const bc_cd = quadraticLerp(b, c, d, t)
+function cubicBezier(a, b, c, d, t) {
+	const ab_bc = quadraticBezier(a, b, c, t)
+	const bc_cd = quadraticBezier(b, c, d, t)
 
 	return lerp(ab_bc, bc_cd, t)
 }
 
-function quadraticLerp(a, b, c, t) {
+function quadraticBezier(a, b, c, t) {
 	const ab = lerp(a, b, t)
 	const bc = lerp(b, c, t)
 
