@@ -2,7 +2,7 @@ import Two from 'two.js'
 import * as Mathjs from 'mathjs'
 
 
-const canvasElement = document.getElementById('canvas')
+const canvasElement = document.getElementById('poly_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
 
 

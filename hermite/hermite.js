@@ -1,13 +1,14 @@
 import Two from 'two.js'
 
-const canvasElement = document.getElementById('canvas')
+const canvasElement = document.getElementById('side_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
+
+two.makeArrow(0, two.height, 0, 0)
+two.makeArrow(0, two.height*0.8, two.width, two.height*0.8)
 
 //Zeichne H0(t) = 2𝑡3 − 3𝑡2 + 1
 const path = two.makePath();
-path.closed = false;
-path.noFill();
-path.linewidth = 5
+path.noFill().closed = false;
 path.stroke = '#D08240';
 
 for (let x = 0; x <= 100; x++) {
@@ -18,9 +19,7 @@ for (let x = 0; x <= 100; x++) {
 
 //Zeichne H'0(t) = 𝑡3 − 2𝑡2 + t
 const path2 = two.makePath();
-path2.closed = false;
-path2.noFill();
-path2.linewidth = 5
+path2.noFill().closed = false;
 path2.stroke = '#CA40D0';
 
 for (let x = 0; x <= 100; x++) {
@@ -31,9 +30,7 @@ for (let x = 0; x <= 100; x++) {
 
 //Zeichne 𝐻1(𝑡) = −2𝑡3 + 3𝑡2
 const path3 = two.makePath();
-path3.closed = false;
-path3.noFill();
-path3.linewidth = 5
+path3.noFill().closed = false;
 path3.stroke = '#408ed0';
 
 for (let x = 0; x <= 100; x++) {
@@ -44,9 +41,7 @@ for (let x = 0; x <= 100; x++) {
 
 //Zeichne 𝐻̄'1(𝑡) = 𝑡3 − 𝑡2
 const path4 = two.makePath();
-path4.closed = false;
-path4.noFill();
-path4.linewidth = 5
+path4.noFill().closed = false;
 path4.stroke = '#46D040';
 
 for (let x = 0; x <= 100; x++) {
