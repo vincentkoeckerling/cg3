@@ -30,3 +30,16 @@ body > .section {
 .is-full-height {
 	height: 100%;
 }
+
+.is-sticky {
+	position: sticky;
+	top: 0;
+}
+
+.has-line-height-fixed {
+	line-height: 1.5rem;
+}
+
+.z-99 {
+	z-index: 99;
+}
