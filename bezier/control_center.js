@@ -11,24 +11,11 @@ export class ControlCenter {
 		this.tValueInputs = Array.from(document.querySelectorAll('.t-value'))
 		this.lastUpdate = Date.now()
 
-		this.interpolationPointsVisible = false
-		this.linesVisible = false
-		
 		this.tValueInputs.forEach(input => input.addEventListener('input', (e) => this.setT(parseFloat(e.currentTarget.value))))
 
 		this.playButton = document.getElementById('play-button')
 		this.playButton.addEventListener('click', this.onPlayButtonClicked.bind(this))
 		this.isAnimating = false
-
-		document.getElementById('show-points').addEventListener('change', (e) => {
-			this.interpolationPointsVisible = e.currentTarget.checked
-			this.requestUpdate()
-		})
-		
-		document.getElementById('show-lines').addEventListener('change', (e) => {
-			this.linesVisible = e.currentTarget.checked
-			this.requestUpdate()
-		})
 
 		instance = this
 	}
