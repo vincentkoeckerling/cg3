@@ -84,6 +84,9 @@ newButton.addEventListener('click', () => {drawCurve(fillArray(slider.value))})
 var newButton = document.getElementById('rootFail');
 newButton.addEventListener('click', () => {drawCurve(fillArrayFail(slider.value))})
 
+const pointCount = document.getElementById('pointCount')
+slider.addEventListener('input', () => pointCount.textContent = slider.value)
+
 drawCurve(fillArray(slider.value))
 
 // Don’t forget to tell two to draw everything to the screen
