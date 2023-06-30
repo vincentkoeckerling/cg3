@@ -5,7 +5,7 @@ body > .section {
 	height: 100vh;
 }
 
-#bezier_canvas, #poly_canvas {
+#bezier_canvas, #poly_canvas, #hermite_canvas {
 	background-color: #eff5fb;
 }
 
