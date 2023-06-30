@@ -47,6 +47,16 @@ body > .section {
 	text-align: justify;
 }
 
-.has-overflow-auto {
+.scroll-sidebar {
 	overflow: auto;
+	margin-inline: -30px;
+	margin-bottom: -20px;
+}
+
+.scroll-sidebar > .box {
+	margin-inline: 30px;
+}
+
+.scroll-sidebar > .box:last-child {
+	margin-bottom: 20px;
 }
