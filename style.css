@@ -20,7 +20,6 @@ body > .section {
 
 .sidebar {
 	max-width: 500px;
-	overflow: auto;
 }
 
 .is-family-roman {
@@ -46,4 +45,8 @@ body > .section {
 
 #explanation {
 	text-align: justify;
+}
+
+.has-overflow-auto {
+	overflow: auto;
 }
