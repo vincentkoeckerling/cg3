@@ -71,6 +71,8 @@ for (let t = 0; t < 1.001; t += 0.01) {
 }
 
 function update() {
+	if (!controlCenter.shouldUpdate()) return;
+
 	const t = controlCenter.t
 
 	b0Point.position = convertPoint(t, b0(t))

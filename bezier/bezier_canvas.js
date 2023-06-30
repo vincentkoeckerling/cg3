@@ -56,6 +56,8 @@ resultPoint.stroke = '#b5b5b5'
 // Update
 
 function update() {
+	if(!controlCenter.shouldUpdate()) return;
+
 	const t = controlCenter.t
 
 	const position1 = point1.position
@@ -132,6 +134,8 @@ canvasElement.addEventListener('mousemove', (e) => {
 
 	currentClickedPoint.position.x += e.movementX
 	currentClickedPoint.position.y += e.movementY
+
+	controlCenter.requestUpdate()
 })
 
 function makeDraggableCircle(x, y) {
