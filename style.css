@@ -60,3 +60,11 @@ body > .section {
 .scroll-sidebar > .box:last-child {
 	margin-bottom: 20px;
 }
+
+.bernstein-1 {
+	max-height: 48px;
+}
+
+.bernstein-2 {
+	max-height: 20px;
+}
