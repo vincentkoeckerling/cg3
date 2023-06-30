@@ -3,9 +3,13 @@
 
 body>.section {
 	height: 100vh;
-	padding-top: 7rem;
+	padding-top: 5rem;
 	padding-bottom: 1rem;
 	padding-inline: 2rem;
+}
+
+.navbar.is-spaced + .section {
+	padding-top: 7rem;
 }
 
 #bezier_canvas,
@@ -77,16 +81,17 @@ body>.section {
 
 .navbar {
 	padding-inline: 2rem !important;
+	justify-content: center;
 }
 
 .navbar-brand>.navbar-item {
 	padding-left: 0px;
 }
 
-.navbar-item.is-active {
+/* .navbar-item.is-active {
 	background-color: #fafafa !important;
 	color: #485fc7 !important;
-}
+} */
 
 .navbar-start {
 	margin-right: 0px;
