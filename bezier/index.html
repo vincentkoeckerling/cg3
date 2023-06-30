@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<script type="module" src="/bezier/bezier.js"></script>
+	<script type="module" src="/bezier/bezier_canvas.js"></script>
+	<script type="module" src="/bezier/bernstein_canvas.js"></script>
 	<link rel="stylesheet" href="/style.css">
 </head>
 
@@ -14,7 +15,7 @@
 		<div class="columns is-full-height is-align-items-stretch">
 			<div class="column">
 				<div class="box is-full-height">
-					<div class="is-full-height" id="canvas"></div>
+					<div class="is-full-height" id="bezier_canvas"></div>
 				</div>
 			</div>
 			<div class="sidebar column">
@@ -46,6 +47,9 @@
 							</label>
 						</div>
 					</div>
+				</div>
+				<div class="box">
+					<div id="bernstein_canvas"></div>
 				</div>
 			</div>
 		</div>

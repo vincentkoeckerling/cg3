@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script type="module" src="poly.js"></script>
+	<link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="has-background-light">
+	<div class="section is-full-height">
+		<div class="columns is-full-height is-align-items-stretch">
+			<div class="column">
+				<div class="box is-full-height">
+					<div class="is-full-height" id="poly_canvas"></div>
+				</div>
+			</div>
+			<div class="sidebar column">
+				<div class="box">
+					<h1 class="is-size-3">Polynominterpolation</h1>
+					<br>
+					<div >
+						<label for="points">Anzahl der Punkte</label>
+						<input id="points" class="slider is-fullwidth is-info is-circle" type="range" min="1" max="9" step="1"
+							value="1">
+					</div>
+					<div class="is-flex is-justify-content-end">
+						<button id="new" class="button is-info is-light">Neu generieren</button>
+					</div>
+					<br>
+					<div class="is-flex is-justify-content-end">
+						<button id="rootFail" class="button is-info is-light">Fail</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
