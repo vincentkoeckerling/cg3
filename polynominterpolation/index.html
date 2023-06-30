@@ -10,6 +10,17 @@
 </head>
 
 <body class="has-background-light">
+	<div class="navbar is-fixed-top">
+		<a class="navbar-item is-tab is-active">
+			Polynominterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/hermite/">
+			Hermiteinterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/bezier/">
+			Bézierkurven
+		</a>
+	</div>
 	<div class="section is-full-height">
 		<div class="columns is-full-height is-align-items-stretch">
 			<div class="column">
@@ -19,29 +30,28 @@
 			</div>
 			<div class="sidebar column">
 				<div class="box">
-					<h1 class="is-size-3">Polynominterpolation</h1>
-					<br>
-					<div >
-						<label for="points">Anzahl der Punkte</label>
-						<input id="points" class="slider is-fullwidth is-info is-circle" type="range" min="1" max="9" step="1"
-							value="1">
+					<div class="is-flex is-justify-content-space-between is-align-items-center">
+						<label for="points">Anzahl der Punkte: <span id="pointCount">1</span></label>
+						<button id="new" class="button is-info is-inverted">Neu generieren</button>
 					</div>
-					<div class="is-flex is-justify-content-end">
-						<button id="new" class="button is-info is-light">Neu generieren</button>
-					</div>
-					<br>
-					<div class="is-flex is-justify-content-end">
-						<button id="rootFail" class="button is-info is-light">Fail</button>
-					</div>
+					<input id="points" class="slider is-fullwidth is-info is-circle" type="range" min="1" max="9" step="1"
+						value="1">
 				</div>
-				<div class="box" id="explanation">
+				<div class="box has-text-justified">
 					<span>
 						Bei der Polynominterpolation wird ein Polynom gesucht, das durch die vorgegebenen Punkte verläuft.
-						Der Grad des Polynoms entspricht der Anzahl der Punkte -1. 
+						Der Grad des Polynoms entspricht der Anzahl der Punkte -1.
+					</span>
+					
+				</div>
+				<div class="box has-text-justified">
+					<h3 class="has-text-weight-bold">Grenzen der Polynominterpolation</h3>
+					<span>
+						Eine hohe Anzahl interpolierter Punkte führt zu einem unruhigen Polynomverlauf mit großen Ausschlägen.
 					</span>
 					<br>
 					<span>
-						Eine hohe Anzahl interpolierter Punkte führt zu einem unruhigen Polynomverlauf mit großen Ausschlägen.
+						<button id="rootFail" class="button is-info is-light mt-4">Beispiel</button>
 					</span>
 				</div>
 			</div>

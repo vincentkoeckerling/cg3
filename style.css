@@ -1,26 +1,35 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 @import 'https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css';
 
-body > .section {
+body>.section {
 	height: 100vh;
+	padding-top: 5rem;
+	padding-bottom: 1rem;
+	padding-inline: 2rem;
 }
 
-#bezier_canvas, #poly_canvas, #hermite_canvas {
+.navbar.is-spaced + .section {
+	padding-top: 7rem;
+}
+
+#bezier_canvas,
+#poly_canvas, #hermite_canvas {
 	background-color: #eff5fb;
 }
 
-#bernstein_canvas, #side_canvas {
+#bernstein_canvas,
+#side_canvas {
 	aspect-ratio: 1 / 1;
 	background-color: #f5f5f5;
 }
 
-#bernstein_canvas > svg, #side_canvas > svg {
+#bernstein_canvas>svg,
+#side_canvas>svg {
 	overflow: visible !important;
 }
 
 .sidebar {
 	max-width: 500px;
-	overflow: auto;
 }
 
 .is-family-roman {
@@ -46,4 +55,48 @@ body > .section {
 
 #explanation {
 	text-align: justify;
+}
+
+.scroll-sidebar {
+	overflow: auto;
+	margin-inline: -30px;
+	margin-bottom: -20px;
+}
+
+.scroll-sidebar>.box {
+	margin-inline: 30px;
+}
+
+.scroll-sidebar>.box:last-child {
+	margin-bottom: 20px;
+}
+
+.bernstein-1 {
+	max-height: 48px;
+}
+
+.bernstein-2 {
+	max-height: 20px;
+}
+
+.navbar {
+	padding-inline: 2rem !important;
+	justify-content: center;
+}
+
+.navbar-brand>.navbar-item {
+	padding-left: 0px;
+}
+
+.navbar-start {
+	margin-right: 0px;
+}
+
+.navbar-end {
+	justify-content: start !important;
+	width: 500px;
+}
+
+.navbar-end > .navbar-item {
+	margin-left: 0.75rem;
 }

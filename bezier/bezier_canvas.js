@@ -3,6 +3,18 @@ import { ControlCenter } from './control_center.js'
 
 const controlCenter = new ControlCenter()
 
+let interpolationPointsVisible
+document.getElementById('show-points').addEventListener('change', (e) => {
+	interpolationPointsVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
+let linesVisible
+document.getElementById('show-lines').addEventListener('change', (e) => {
+	linesVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 const canvasElement = document.getElementById('bezier_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
 
@@ -56,6 +68,8 @@ resultPoint.stroke = '#b5b5b5'
 // Update
 
 function update() {
+	if(!controlCenter.shouldUpdate()) return;
+
 	const t = controlCenter.t
 
 	const position1 = point1.position
@@ -98,20 +112,20 @@ function update() {
 
 	resultPath.vertices.length = 0
 
-	for (let t = 0; t <= 1.001; t += 0.01) {
+	for (let t = 0; t <= 1.001; t += 0.02) {
 		const position = cubicBezier(position1, position2, position3, position4, t)
 		resultPath.vertices.push(position)
 	}
 
 	// Visibility
 
-	if (controlCenter.interpolationPointsVisible) {
+	if (interpolationPointsVisible) {
 		interpolationPoints.forEach(point => point.opacity = 1.0)
 	} else {
 		interpolationPoints.forEach(point => point.opacity = 0.0)
 	}
 
-	if (controlCenter.linesVisible) {
+	if (linesVisible) {
 		lines.forEach(line => line.line.opacity = 1.0)
 	} else {
 		lines.forEach(line => line.line.opacity = 0.0)
@@ -132,6 +146,8 @@ canvasElement.addEventListener('mousemove', (e) => {
 
 	currentClickedPoint.position.x += e.movementX
 	currentClickedPoint.position.y += e.movementY
+
+	controlCenter.requestUpdate()
 })
 
 function makeDraggableCircle(x, y) {

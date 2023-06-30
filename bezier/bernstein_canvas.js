@@ -27,8 +27,34 @@ const b1Point = makePoint('#D0408E', '#f04aa2')
 const b2Point = makePoint('#D08240', '#f2974a')
 const b3Point = makePoint('#8ED040', '#a2ef4a')
 
+const textOptions = {
+	size: '20px',
+	family: "'Times New Roman', Times, serif",
+}
+
+const b0Label = two.makeText('B₀', 0, 0, textOptions)
+b0Label.position = convertPoint(0.125, 0.8)
+b0Label.fill = '#408ED0'
+
+const b1Label = two.makeText('B₁', 0, 0, textOptions)
+b1Label.position = convertPoint(0.35, 0.475)
+b1Label.fill = '#CA40D0'
+
+const b2Label = two.makeText('B₂', 0, 0, textOptions)
+b2Label.position = convertPoint(0.65, 0.475)
+b2Label.fill = '#D08240'
+
+const b3Label = two.makeText('B₃', 0, 0, textOptions)
+b3Label.position = convertPoint(0.875, 0.8)
+b3Label.fill = '#46D040'
+
 two.makeArrow(0, two.height, 0, 0)
 two.makeArrow(0, two.height, two.width, two.height)
+
+two.makeText('1.0', two.width - 8, two.height + 16)
+two.makeText('1.0', 0, -8)
+
+two.makeText('0', -6, two.height + 6)
 
 for (let t = 0; t < 1.001; t += 0.01) {
 	const b0Value = b0(t)
@@ -45,6 +71,8 @@ for (let t = 0; t < 1.001; t += 0.01) {
 }
 
 function update() {
+	if (!controlCenter.shouldUpdate()) return;
+
 	const t = controlCenter.t
 
 	b0Point.position = convertPoint(t, b0(t))

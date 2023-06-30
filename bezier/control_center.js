@@ -1,5 +1,7 @@
 let instance = null
 
+const updateThreshold = 100
+
 export class ControlCenter {
 
 	constructor() {
@@ -7,29 +9,13 @@ export class ControlCenter {
 
 		this.t = 0.5
 		this.tValueInputs = Array.from(document.querySelectorAll('.t-value'))
-		this.interval = null
+		this.lastUpdate = Date.now()
 
-		this.interpolationPointsVisible = false
-		this.linesVisible = false
-		
 		this.tValueInputs.forEach(input => input.addEventListener('input', (e) => this.setT(parseFloat(e.currentTarget.value))))
 
-		document.getElementById('play-button').addEventListener('click', (e) => {
-			const button = e.currentTarget
-			if (this.interval === null) {
-				this.interval = setInterval(() => this.setT((this.t + 0.001) % 1.0), 5)
-				button.textContent = 'Pause'
-				this.tValueInputs.forEach(input => input.disabled = true)
-			} else {
-				clearInterval(this.interval)
-				this.interval = null
-				button.textContent = 'Play'
-				this.tValueInputs.forEach(input => input.disabled = false)
-			}
-		})
-
-		document.getElementById('show-points').addEventListener('change', (e) => this.interpolationPointsVisible = e.currentTarget.checked)
-		document.getElementById('show-lines').addEventListener('change', (e) => this.linesVisible = e.currentTarget.checked)
+		this.playButton = document.getElementById('play-button')
+		this.playButton.addEventListener('click', this.onPlayButtonClicked.bind(this))
+		this.isAnimating = false
 
 		instance = this
 	}
@@ -37,5 +23,37 @@ export class ControlCenter {
 	setT(newValue) {
 		this.t = newValue
 		this.tValueInputs.forEach(input => input.value = this.t)
+		this.requestUpdate()
+	}
+
+	onPlayButtonClicked() {
+		if (this.isAnimating) {
+			this.isAnimating = false
+
+			this.playButton.textContent = 'Play'
+			this.tValueInputs.forEach(input => input.disabled = false)
+		} else {
+			this.isAnimating = true
+			requestAnimationFrame(this.animate.bind(this))
+
+			this.playButton.textContent = 'Pause'
+			this.tValueInputs.forEach(input => input.disabled = true)
+		}
+	}
+
+	animate() {
+		this.setT((this.t + 0.002) % 1.0)
+
+		if (this.isAnimating) {
+			requestAnimationFrame(this.animate.bind(this))
+		}
+	}
+
+	requestUpdate() {
+		this.lastUpdate = Date.now()
+	}
+
+	shouldUpdate() {
+		return Date.now() - this.lastUpdate < updateThreshold
 	}
 }
