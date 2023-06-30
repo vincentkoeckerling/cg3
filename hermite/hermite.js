@@ -1,3 +1,4 @@
+import { sqrt } from 'mathjs'
 import Two from 'two.js'
 
 const canvasElement = document.getElementById('side_canvas')
@@ -59,21 +60,54 @@ const curve = two2.makePath();
 curve.noFill().closed = false;
 curve.stroke = '#D08240';
 
-let m1 = new Two.Vector(403, 136)
-let m0 = new Two.Vector(159, 264)
-let p0 = new Two.Vector(102, 209)
-let p1 = new Two.Vector(377, 184)
-curve.vertices.push(p0, p1);
-var p0c = two2.makeCircle(p0.x, p0.y, 5);
-p0c.stroke ='#b5b5b5';
-var p1c = two2.makeCircle(p1.x, p1.y, 5);
-p1c.stroke ='#b5b5b5';
-
-two2.makeArrow(p0.x, p0.y, m0.x, m0.y);
-two2.makeArrow(p1.x, p1.y, m1.x, m1.y)
+let m1 = [603, 184]
+let m0 = [159, 164]
+let p0 = [102, 409]
+let p1 = [377, 184]
+//curve.vertices.push(p0, p1);
 
 
+//two2.makeArrow(p0[0], p0[1], m0[0], m0[1]);
+//two2.makeArrow(p1[0], p1[1], m1[0], m1[1])
 
+var p0c = two2.makeCircle(p0[0], p0[1], 5);
+p0c.stroke = '#b5b5b5';
+var p1c = two2.makeCircle(p1[0], p1[1], 5);
+p1c.stroke = '#b5b5b5';
+
+// Basistransformation
+// p(t) = (2*t³ - 3*t² + 1)*p0 + (-2*t³ + 3*t²)*p1 + (t³ - 2*t² + t)*m0 + (t³ - t²)*m1
+//              H0(t)                   H1(t)               H'0(t)              H'1(t)
+function basistransform(point0, point1, mPoint0, mPoint1) {
+    let mp0 = [
+        //          x              /    sqrt    (x²+y²) 
+        (mPoint0[0] - point0[0]) / (Math.sqrt((Math.pow(mPoint0[0] - point0[0], 2) + Math.pow(mPoint0[1] - point0[1], 2)))),
+        (mPoint0[1] - point0[1]) / (Math.sqrt((Math.pow(mPoint0[0] - point0[0], 2) + Math.pow(mPoint0[1] - point0[1], 2))))
+    ];
+    console.log(mp0)
+    console.log()
+    let mp1 = [
+        //          x              /    sqrt    (x²+y²) 
+        (mPoint1[0] - point1[0]) / (Math.sqrt((Math.pow(mPoint1[0] - point1[0], 2) + Math.pow(mPoint1[1] - point1[1], 2)))),
+        (mPoint1[1] - point1[1]) / (Math.sqrt((Math.pow(mPoint1[0] - point1[0], 2) + Math.pow(mPoint1[1] - point1[1], 2))))
+    ];
+
+    two2.makeArrow(p0[0], p0[1], p0[0]+mp0[0]*100, p0[1]+mp0[1]*100);
+    two2.makeArrow(p1[0], p1[1], p1[0]+mp1[0]*100, p1[1]+mp1[1]*100)
+    for (let t = 0; t <= 1.001; t += 0.01) {
+        let x = (2 * Math.pow(t, 3) - 3 * Math.pow(t, 2) + 1) * point0[0]
+            + (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2)) * point1[0]
+            + (Math.pow(t, 3) - 2 * Math.pow(t, 2) + t) * mp0[0]
+            + (Math.pow(t, 3) - Math.pow(t, 2)) * mp1[0];
+        let y = (2 * Math.pow(t, 3) - 3 * Math.pow(t, 2) + 1) * point0[1]
+            + (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2)) * point1[1]
+            + (Math.pow(t, 3) - 2 * Math.pow(t, 2) + t) * mp0[1]
+            + (Math.pow(t, 3) - Math.pow(t, 2)) * mp1[1];
+        curve.vertices.push(new Two.Vector(x, y))
+    }
+}
+
+basistransform(p0, p1, m0, m1);
 
 // Don’t forget to tell two to draw everything to the screen
 two.update();
