@@ -51,6 +51,7 @@ function drawCurve(array) {
         path.vertices.push(pos);
     }
 
+    // Zeichne Kreise über die Punkte
     for(let k=0; k<array.length;k++){
         let point = two.makeCircle(array[k].x, array[k].y, 5);
         point.stroke = '#b5b5b5'

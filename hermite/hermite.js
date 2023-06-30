@@ -1,4 +1,3 @@
-import { sqrt } from 'mathjs'
 import Two from 'two.js'
 
 const canvasElement = document.getElementById('side_canvas')
@@ -58,42 +57,97 @@ const two2 = new Two({ fitted: true }).appendTo(mainCanvas)
 
 const curve = two2.makePath();
 curve.noFill().closed = false;
-curve.stroke = '#D08240';
+curve.stroke = '#408ed0';
+curve.linewidth = 5
 
-let m1 = [603, 184]
-let m0 = [159, 164]
 let p0 = [102, 409]
 let p1 = [377, 184]
+let p2 = [200, 200]
+let m0 = [359, 164]
+let m1 = [330, 400]
+let m2 = [300, 300]
 //curve.vertices.push(p0, p1);
 
 
-//two2.makeArrow(p0[0], p0[1], m0[0], m0[1]);
-//two2.makeArrow(p1[0], p1[1], m1[0], m1[1])
+var arrow0 = two2.makeArrow(p0[0], p0[1], m0[0], m0[1])
+var arrow1 = two2.makeArrow(p1[0], p1[1], m1[0], m1[1])
+var arrow2 = two2.makeArrow(p2[0], p2[1], m2[0], m2[1])
 
-var p0c = two2.makeCircle(p0[0], p0[1], 5);
-p0c.stroke = '#b5b5b5';
-var p1c = two2.makeCircle(p1[0], p1[1], 5);
-p1c.stroke = '#b5b5b5';
+var p0c = makeDraggableCircle(p0[0], p0[1])
+var p1c = makeDraggableCircle(p1[0], p1[1])
+var p2c = makeDraggableCircle(p2[0], p2[1])
+
+var m0a = makeDraggableArrow(m0[0], m0[1])
+var m1a = makeDraggableArrow(m1[0], m1[1])
+var m2a = makeDraggableArrow(m2[0], m2[1])
+
+
+function update() {
+    arrow0.remove()
+    arrow1.remove()
+    arrow2.remove()
+    arrow0 = two2.makeArrow(p0c.position.x, p0c.position.y, m0a.position.x, m0a.position.y)
+    arrow0.stroke = '#D08240'
+    arrow0.linewidth = 3;
+    arrow0.opacity = 0.5
+    arrow1 = two2.makeArrow(p1c.position.x, p1c.position.y, m1a.position.x, m1a.position.y)
+    arrow1.stroke = '#D08240'
+    arrow1.linewidth = 3;
+    arrow1.opacity = 0.5
+    arrow2 = two2.makeArrow(p2c.position.x, p2c.position.y, m2a.position.x, m2a.position.y)
+    arrow2.stroke = '#D08240'
+    arrow2.linewidth = 3;
+    arrow2.opacity = 0.5
+    curve.vertices.length = 0
+    basistransform([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y],[m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y])
+    basistransform([p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y],[m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y])
+}
+
+two2.bind('update', update)
+two2.play()
+
+
+let currentClickedPoint = null
+
+mainCanvas.addEventListener('mouseup', () => currentClickedPoint = null)
+mainCanvas.addEventListener('mouseleave', () => currentClickedPoint = null)
+mainCanvas.addEventListener('mousemove', (e) => {
+    if (currentClickedPoint === null) return
+
+    currentClickedPoint.position.x += e.movementX
+    currentClickedPoint.position.y += e.movementY
+})
+
+function makeDraggableCircle(x, y) {
+    const point = two2.makeCircle(x, y, 10)
+    point.fill = '#408ed0'
+    point.stroke = '#50b2ff'
+    point.linewidth = 10
+
+    two2.update()
+    point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
+
+    return point
+}
+
+function makeDraggableArrow(x, y) {
+    const point = two2.makeCircle(x, y, 10)
+    point.opacity = 0.4;
+    point.stroke ='#D08240' 
+    
+    point.linewidth = 10
+    two2.update()
+    point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
+
+    return point
+}
 
 // Basistransformation
 // p(t) = (2*t³ - 3*t² + 1)*p0 + (-2*t³ + 3*t²)*p1 + (t³ - 2*t² + t)*m0 + (t³ - t²)*m1
 //              H0(t)                   H1(t)               H'0(t)              H'1(t)
 function basistransform(point0, point1, mPoint0, mPoint1) {
-    let mp0 = [
-        //          x              /    sqrt    (x²+y²) 
-        (mPoint0[0] - point0[0]) / (Math.sqrt((Math.pow(mPoint0[0] - point0[0], 2) + Math.pow(mPoint0[1] - point0[1], 2)))),
-        (mPoint0[1] - point0[1]) / (Math.sqrt((Math.pow(mPoint0[0] - point0[0], 2) + Math.pow(mPoint0[1] - point0[1], 2))))
-    ];
-    console.log(mp0)
-    console.log()
-    let mp1 = [
-        //          x              /    sqrt    (x²+y²) 
-        (mPoint1[0] - point1[0]) / (Math.sqrt((Math.pow(mPoint1[0] - point1[0], 2) + Math.pow(mPoint1[1] - point1[1], 2)))),
-        (mPoint1[1] - point1[1]) / (Math.sqrt((Math.pow(mPoint1[0] - point1[0], 2) + Math.pow(mPoint1[1] - point1[1], 2))))
-    ];
-
-    two2.makeArrow(p0[0], p0[1], p0[0]+mp0[0]*100, p0[1]+mp0[1]*100);
-    two2.makeArrow(p1[0], p1[1], p1[0]+mp1[0]*100, p1[1]+mp1[1]*100)
+    let mp0 = [mPoint0[0] - point0[0], mPoint0[1] - point0[1]];
+    let mp1 = [mPoint1[0] - point1[0], mPoint1[1] - point1[1]];
     for (let t = 0; t <= 1.001; t += 0.01) {
         let x = (2 * Math.pow(t, 3) - 3 * Math.pow(t, 2) + 1) * point0[0]
             + (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2)) * point1[0]
@@ -104,6 +158,7 @@ function basistransform(point0, point1, mPoint0, mPoint1) {
             + (Math.pow(t, 3) - 2 * Math.pow(t, 2) + t) * mp0[1]
             + (Math.pow(t, 3) - Math.pow(t, 2)) * mp1[1];
         curve.vertices.push(new Two.Vector(x, y))
+
     }
 }
 
