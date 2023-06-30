@@ -42,7 +42,8 @@ export class ControlCenter {
 	}
 
 	animate() {
-		this.setT((this.t + 0.002) % 1.0)
+		//this.setT((this.t + 0.002) % 1.0)
+		this.setT((this.t + 0.002) % 2.0)
 
 		if (this.isAnimating) {
 			requestAnimationFrame(this.animate.bind(this))
