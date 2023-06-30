@@ -14,19 +14,9 @@ export class ControlCenter {
 		
 		this.tValueInputs.forEach(input => input.addEventListener('input', (e) => this.setT(parseFloat(e.currentTarget.value))))
 
-		document.getElementById('play-button').addEventListener('click', (e) => {
-			const button = e.currentTarget
-			if (this.interval === null) {
-				this.interval = setInterval(() => this.setT((this.t + 0.001) % 1.0), 5)
-				button.textContent = 'Pause'
-				this.tValueInputs.forEach(input => input.disabled = true)
-			} else {
-				clearInterval(this.interval)
-				this.interval = null
-				button.textContent = 'Play'
-				this.tValueInputs.forEach(input => input.disabled = false)
-			}
-		})
+		this.playButton = document.getElementById('play-button')
+		this.playButton.addEventListener('click', this.onPlayButtonClicked.bind(this))
+		this.isAnimating = false
 
 		document.getElementById('show-points').addEventListener('change', (e) => this.interpolationPointsVisible = e.currentTarget.checked)
 		document.getElementById('show-lines').addEventListener('change', (e) => this.linesVisible = e.currentTarget.checked)
@@ -37,5 +27,28 @@ export class ControlCenter {
 	setT(newValue) {
 		this.t = newValue
 		this.tValueInputs.forEach(input => input.value = this.t)
+	}
+
+	onPlayButtonClicked() {
+		if (this.isAnimating) {
+			this.isAnimating = false
+
+			this.playButton.textContent = 'Play'
+			this.tValueInputs.forEach(input => input.disabled = false)
+		} else {
+			this.isAnimating = true
+			requestAnimationFrame(this.animate.bind(this))
+
+			this.playButton.textContent = 'Pause'
+			this.tValueInputs.forEach(input => input.disabled = true)
+		}
+	}
+
+	animate() {
+		this.setT((this.t + 0.002) % 1.0)
+
+		if (this.isAnimating) {
+			requestAnimationFrame(this.animate.bind(this))
+		}
 	}
 }
