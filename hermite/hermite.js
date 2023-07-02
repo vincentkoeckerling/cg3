@@ -2,6 +2,7 @@ import Two from 'two.js'
 import { ControlCenter } from '../bezier/control_center'
 
 const controlCenter = new ControlCenter()
+controlCenter.tMax = 2.0
 
 const mainCanvas = document.getElementById('hermite_canvas')
 const two = new Two({ fitted: true }).appendTo(mainCanvas)
