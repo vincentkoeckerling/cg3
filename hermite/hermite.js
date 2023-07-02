@@ -37,6 +37,8 @@ var tpoint = two.makeCircle(0, 0, 10);
 tpoint.stroke = '#b5b5b5'
 
 function update() {
+    if (!controlCenter.shouldUpdate()) return
+
     arrow0.remove()
     arrow1.remove()
     arrow2.remove()
@@ -75,6 +77,8 @@ mainCanvas.addEventListener('mousemove', (e) => {
         m2a.position.x += e.movementX
         m2a.position.y += e.movementY
     }
+
+    controlCenter.requestUpdate()
 })
 
 function makeDraggableCircle(x, y) {
