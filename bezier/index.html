@@ -11,28 +11,16 @@
 </head>
 
 <body class="has-background-light">
-	<div class="navbar is-fixed-top is-spaced">
-		<div class="navbar-brand">
-			<div class="navbar-item">
-				<h1 class="title">Interpolation</h1>
-			</div>
-		</div>
-		<div class="navbar-start">
-			<a class="navbar-item" href="/polynominterpolation/">
-				Polynominterpolation
-			</a>
-			<a class="navbar-item">
-				Hermiteinterpolation
-			</a>
-			<a class="navbar-item is-active">
-				Bézierkurven
-			</a>
-		</div>
-		<div class="navbar-end">
-			<div class="navbar-item">
-				<h2 class="subtitle is-3">Bézierkurven</h2>
-			</div>
-		</div>
+	<div class="navbar is-fixed-top">
+		<a class="navbar-item is-tab" href="/polynominterpolation/">
+			Polynominterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/hermite/">
+			Hermiteinterpolation
+		</a>
+		<a class="navbar-item is-tab is-active">
+			Bézierkurven
+		</a>
 	</div>
 	<div class="section is-full-height is-relative">
 		<div class="columns is-full-height is-align-items-stretch">
@@ -55,14 +43,15 @@
 				</div>
 				<div class="scroll-sidebar">
 					<div class="box">
-						<p>
-							Bézierkurven erlauben das Interpolieren einer Kurve zwischen zwei Punkten. Dazu werden noch 2
+						<p class="has-text-justified">
+							Bézierkurven erlauben das Interpolieren einer Kurve zwischen zwei Punkten. Bei einer kubische
+							Bézierkurve wie hier werden dazu noch 2 weitere
 							Kontrollpunkte benötigt, die die Kurvenform bestimmen. Probier es aus!
 						</p>
 					</div>
 					<div class="box">
 						<h3 class="has-text-weight-bold">DeCasteljau-Algorithmus</h3>
-						<p>
+						<p class="has-text-justified">
 							Um den Punkt an einer beliebigen Stelle <span
 								class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span> zu berechnen, wird
 							zwischen den Kontrollpunkten rekursiv linear interpoliert.<br>
@@ -85,7 +74,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="box">
+					<div class="box has-text-justified">
 						<h3 class="has-text-weight-bold">Bernstein-Polynome</h3>
 						<p>
 							Bézierkurven können auch durch die kubischen Bernstein-Polynome berechnet werden.

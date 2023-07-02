@@ -1,5 +1,7 @@
 let instance = null
 
+const updateThreshold = 100
+
 export class ControlCenter {
 
 	constructor() {
@@ -7,19 +9,13 @@ export class ControlCenter {
 
 		this.t = 0.5
 		this.tValueInputs = Array.from(document.querySelectorAll('.t-value'))
-		this.interval = null
+		this.lastUpdate = Date.now()
 
-		this.interpolationPointsVisible = false
-		this.linesVisible = false
-		
 		this.tValueInputs.forEach(input => input.addEventListener('input', (e) => this.setT(parseFloat(e.currentTarget.value))))
 
 		this.playButton = document.getElementById('play-button')
 		this.playButton.addEventListener('click', this.onPlayButtonClicked.bind(this))
 		this.isAnimating = false
-
-		document.getElementById('show-points').addEventListener('change', (e) => this.interpolationPointsVisible = e.currentTarget.checked)
-		document.getElementById('show-lines').addEventListener('change', (e) => this.linesVisible = e.currentTarget.checked)
 
 		instance = this
 	}
@@ -27,6 +23,7 @@ export class ControlCenter {
 	setT(newValue) {
 		this.t = newValue
 		this.tValueInputs.forEach(input => input.value = this.t)
+		this.requestUpdate()
 	}
 
 	onPlayButtonClicked() {
@@ -50,5 +47,13 @@ export class ControlCenter {
 		if (this.isAnimating) {
 			requestAnimationFrame(this.animate.bind(this))
 		}
+	}
+
+	requestUpdate() {
+		this.lastUpdate = Date.now()
+	}
+
+	shouldUpdate() {
+		return Date.now() - this.lastUpdate < updateThreshold
 	}
 }
