@@ -52,15 +52,15 @@ function drawCurve(array) {
     }
 
     // Zeichne Kreise über die Punkte
-    for(let k=0; k<array.length;k++){
+    for (let k = 0; k < array.length; k++) {
         let point = two.makeCircle(array[k].x, array[k].y, 5);
         point.stroke = '#b5b5b5'
     }
-    
+
     two.update();
 }
 
-function fillArrayFail(){
+function fillArrayFail() {
     two.clear();
     let p0 = new Two.Vector(403, 236)
     let p1 = new Two.Vector(159, 164)
@@ -72,21 +72,27 @@ function fillArrayFail(){
     let p7 = new Two.Vector(533.2, 175)
     let p8 = new Two.Vector(21.4, 157.3)
     let p9 = new Two.Vector(656.67, 263.23)
-    return [p0, p1, p2, p3, p4, p5, p6, p7,p8,p9];
+    return [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9];
 }
 
+const pointCount = document.getElementById('pointCount')
 
 var slider = document.getElementById('points');
 slider.addEventListener('input', () => { drawCurve(fillArray(slider.value)) });
+slider.addEventListener('input', () => pointCount.textContent = slider.value)
 
 var newButton = document.getElementById('new');
-newButton.addEventListener('click', () => {drawCurve(fillArray(slider.value))})
+newButton.addEventListener('click', () => { 
+    drawCurve(fillArray(slider.value)) 
+    pointCount.textContent = slider.value
+})
 
-var newButton = document.getElementById('rootFail');
-newButton.addEventListener('click', () => {drawCurve(fillArrayFail(slider.value))})
-
-const pointCount = document.getElementById('pointCount')
-slider.addEventListener('input', () => pointCount.textContent = slider.value)
+var failButton = document.getElementById('rootFail');
+failButton.addEventListener('click', () => { 
+    drawCurve(fillArrayFail()) 
+    slider.value = 10
+    pointCount.textContent = 10
+})
 
 drawCurve(fillArray(slider.value))
 
