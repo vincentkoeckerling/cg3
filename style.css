@@ -58,7 +58,7 @@ body>.section {
 }
 
 .scroll-sidebar {
-	overflow: auto;
+	overflow-y: auto;
 	margin-inline: -30px;
 	margin-bottom: -20px;
 }
@@ -76,6 +76,10 @@ body>.section {
 }
 
 .bernstein-2 {
+	max-height: 20px;
+}
+
+.poylnom-1 {
 	max-height: 20px;
 }
 
