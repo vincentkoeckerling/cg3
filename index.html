@@ -1,13 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <script type="module" src="/main.js" defer></script>
-  </head>
-  <body>
-    
-  </body>
+<html lang="en" id="startpage">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computer Grafik 3: Interpolation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="has-background-light">
+  <div
+    class="section is-full-height is-flex is-flex-direction-column is-align-items-center">
+    <div class="is-flex is-flex-direction-column is-align-items-stretch">
+      <div class="box">
+        <h1 class="title is-1 has-text-centered">Computer Grafik 3</h1>
+        <p class="subtitle is-3 has-text-centered">Interpolation</p>
+        <div id="intro-text" class="has-text-centered is-flex is-flex-direction-column is-align-items-center mt-5">
+          <p>
+            Interpolieren ist das Berechnen einer <br> kontinuirlichen Kurve abhängig von konkreten Punkten. 
+          </p>
+          <p class="mt-2 is-hidden">
+            In der Animation wird zum Beispiel zwischen Keyframes interpoliert um für jeden Zwischenschritt <br> einen
+            konkreten Wert zu erhalten 
+          </p>
+          <p class="mt-2">
+            Klicke unten um mehr über verschiedenen Arten <br> der Interpolation zu erfahren!
+          </p>
+        </div>
+      </div>
+      <div id="startpage-links" class="box mt-4 buttons has-addons">
+        <a href="/polynominterpolation/" class="button is-info is-inverted">Polynominterpolation</a>
+        <a href="/hermite/" class="button is-info is-inverted">Hermiteinterpolation</a>
+        <a href="/bezier/" class="button is-info is-inverted">Bézierkurven</a>
+      </div>
+    </div>
+    <div>
+
+    </div>
+  </div>
+</body>
+
 </html>

@@ -104,3 +104,21 @@ body>.section {
 .navbar-end > .navbar-item {
 	margin-left: 0.75rem;
 }
+
+#startpage {
+	font-size: 1.12rem;
+}
+
+#startpage-links {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding: 0;
+}
+
+#startpage-links > * {
+	margin: 0;
+}
+
+#intro-text > * {
+	max-width: 45ch;
+}
