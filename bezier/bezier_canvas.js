@@ -68,10 +68,7 @@ resultPoint.stroke = '#b5b5b5'
 
 // Vectors
 
-let vector1 = makeVector(0, 0, point1.position.x, point1.position.y, b0(0.5))
-let vector2 = makeVector(vector1.destinationX, vector1.destinationY, point2.position.x, point2.position.y, b1(0.5))
-let vector3 = makeVector(vector2.destinationX, vector2.destinationY, point3.position.x, point3.position.y, b2(0.5))
-let vector4 = makeVector(vector3.destinationX, vector3.destinationY, point4.position.x, point4.position.y, b3(0.5))
+const bernsteinGroup = two.makeGroup()
 
 // Update
 
@@ -127,15 +124,8 @@ function update() {
 
 	// Vectors
 
-	vector1.arrow.remove()
-	vector2.arrow.remove()
-	vector3.arrow.remove()
-	vector4.arrow.remove()
-	
-	vector1 = makeVector(0, 0, point1.position.x, point1.position.y, b0(t))
-	vector2 = makeVector(vector1.destinationX, vector1.destinationY, point2.position.x, point2.position.y, b1(t))
-	vector3 = makeVector(vector2.destinationX, vector2.destinationY, point3.position.x, point3.position.y, b2(t))
-	vector4 = makeVector(vector3.destinationX, vector3.destinationY, point4.position.x, point4.position.y, b3(t))
+	bernsteinGroup.children.forEach(v => v.remove())
+	drawBernsteins(t)
 
 	// Visibility
 
@@ -186,17 +176,51 @@ function makeDraggableCircle(x, y) {
 
 // Util
 
-function makeVector(x, y, dx, dy, scale) {
-	const destinationX = x + dx * scale
-	const destinationY = y + dy * scale
+function drawBernsteins(t) {
+	const vector1 = makeVector(two.width / 2, two.height / 2, point1.position.x - two.width / 2, point1.position.y - two.height / 2, b0(t), '#408ED0')
+	const vector2 = makeVector(vector1.x2, vector1.y2, point2.position.x - two.width / 2, point2.position.y - two.height / 2, b1(t), '#CA40D0')
+	const vector3 = makeVector(vector2.x2, vector2.y2, point3.position.x - two.width / 2, point3.position.y - two.height / 2, b2(t), '#D08240')
+	const vector4 = makeVector(vector3.x2, vector3.y2, point4.position.x - two.width / 2, point4.position.y - two.height / 2, b3(t), '#46D040')
 
-	const arrow = two.makeArrow(x, y, destinationX, destinationY)
+	bernsteinGroup.add(vector4.arrow, vector3.arrow, vector2.arrow, vector1.arrow)
+}
+
+function makeVector(x, y, dx, dy, scale, color) {
+	const x2 = x + dx * scale
+	const y2 = y + dy * scale
+
+	const arrow = two.makeArrow(x, y, x2, y2)
+	arrow.stroke = color
+	arrow.linewidth = 3
+	
+	const circle = two.makeCircle(x, y, 4)
+	circle.noFill()
+	circle.stroke = color
+	circle.linewidth = 3
+
+	const group = two.makeGroup([arrow, circle])
 
 	return {
-		arrow,
-		destinationX,
-		destinationY
+		arrow: group,
+		x2,
+		y2
 	}
+}
+
+function convertXToCalcSystem(x) {
+	return (x / two.width - 0.5) * 2
+}
+
+function convertYToCalcSystem(y) {
+	return -(y / two.height - 0.5) * 2
+}
+
+function convertXToRealSystem(x) {
+	return (x / 2 + 0.5) * two.width
+}
+
+function convertYToRealSystem(y) {
+	return  (-y / 2 + 0.5) * two.height
 }
 
 function makeInterpolCircle(colorInner, colorOuter) {
