@@ -16,12 +16,12 @@ curve.noFill().closed = false;
 curve.stroke = '#408ed0';
 curve.linewidth = 5
 
-let p0 = [102, 309]
-let p1 = [337, 184]
-let p2 = [600, 200]
-let m0 = [159, 164]
-let m1 = [430, 300]
-let m2 = [600, 100]
+let p0 = [two.width*0.15, two.height*0.6]
+let p1 = [two.width*0.45, two.height*0.4]
+let p2 = [two.width*0.75, two.height*0.7]
+let m0 = [two.width*0.2, two.height*0.4]
+let m1 = [two.width*0.7, two.height*0.35]
+let m2 = [two.width*0.9, two.height*0.6]
 
 var arrow0 = two.makeArrow(p0[0], p0[1], m0[0], m0[1])
 var arrow1 = two.makeArrow(p1[0], p1[1], m1[0], m1[1])
