@@ -40,6 +40,14 @@
 							value="0.5">
 						<button id="play-button" class="button is-info is-light ml-4">Play</button>
 					</div>
+					<div class="field">
+						<div class="control">
+							<label class="checkbox">
+								<input id="draw-full-curve" type="checkbox" checked>
+								Vollständige Kurve zeichnen
+							</label>
+						</div>
+					</div>
 				</div>
 				<div class="scroll-sidebar">
 					<div class="box">
@@ -90,7 +98,18 @@
 						<div class="mt-4 is-flex is-justify-content-center">
 							<img class="bernstein-2" src="/assets/bernstein-2.png" alt="">
 						</div>
-						<div id="bernstein_canvas" class="mt-6 mb-4"></div>
+						<p class="mt-4">
+							Grafisch gesehen werden die Punktvektoren	mit den entsprechenden Bernstein-Polynomen skaliert und addiert. 
+						</p>
+						<div class="field mt-2">
+							<div class="control">
+								<label class="checkbox">
+									<input id="show-vectors" type="checkbox">
+									Vektoren anzeigen
+								</label>
+							</div>
+						</div>
+						<div id="bernstein_canvas" class="mt-5 mb-4"></div>
 					</div>
 				</div>
 			</div>

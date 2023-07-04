@@ -1,7 +1,14 @@
 import Two from 'two.js'
 import { ControlCenter } from './control_center.js'
+import { b0, b1, b2, b3 } from './bernstein.js';
 
 const controlCenter = new ControlCenter()
+
+let drawFullCurve = true
+document.getElementById('draw-full-curve').addEventListener('change', (e) => {
+	drawFullCurve = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
 
 let interpolationPointsVisible
 document.getElementById('show-points').addEventListener('change', (e) => {
@@ -12,6 +19,12 @@ document.getElementById('show-points').addEventListener('change', (e) => {
 let linesVisible
 document.getElementById('show-lines').addEventListener('change', (e) => {
 	linesVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
+let vectorsVisible
+document.getElementById('show-vectors').addEventListener('change', (e) => {
+	vectorsVisible = e.currentTarget.checked
 	controlCenter.requestUpdate()
 })
 
@@ -65,6 +78,10 @@ const interpolationPoints = [
 const resultPoint = two.makeCircle(0, 0, 12)
 resultPoint.stroke = '#b5b5b5'
 
+// Vectors
+
+const bernsteinGroup = two.makeGroup()
+
 // Update
 
 function update() {
@@ -112,9 +129,18 @@ function update() {
 
 	resultPath.vertices.length = 0
 
-	for (let t = 0; t <= 1.001; t += 0.02) {
+	let tMax = controlCenter.t
+	if (drawFullCurve) tMax = 1
+	for (let t = 0; t <= tMax + 0.001; t += 0.02) {
 		const position = cubicBezier(position1, position2, position3, position4, t)
 		resultPath.vertices.push(position)
+	}
+
+	// Vectors
+
+	bernsteinGroup.children.forEach(v => v.remove())
+	if (vectorsVisible) {
+		drawBernsteins(t)
 	}
 
 	// Visibility
@@ -134,6 +160,8 @@ function update() {
 
 two.bind('update', update)
 two.play()
+
+controlCenter.requestUpdate()
 
 // Draggable
 
@@ -163,6 +191,37 @@ function makeDraggableCircle(x, y) {
 }
 
 // Util
+
+function drawBernsteins(t) {
+	const vector1 = makeVector(two.width / 2, two.height / 2, point1.position.x - two.width / 2, point1.position.y - two.height / 2, b0(t), '#408ED0')
+	const vector2 = makeVector(vector1.x2, vector1.y2, point2.position.x - two.width / 2, point2.position.y - two.height / 2, b1(t), '#CA40D0')
+	const vector3 = makeVector(vector2.x2, vector2.y2, point3.position.x - two.width / 2, point3.position.y - two.height / 2, b2(t), '#D08240')
+	const vector4 = makeVector(vector3.x2, vector3.y2, point4.position.x - two.width / 2, point4.position.y - two.height / 2, b3(t), '#46D040')
+
+	bernsteinGroup.add(vector4.arrow, vector3.arrow, vector2.arrow, vector1.arrow)
+}
+
+function makeVector(x, y, dx, dy, scale, color) {
+	const x2 = x + dx * scale
+	const y2 = y + dy * scale
+
+	const arrow = two.makeArrow(x, y, x2, y2)
+	arrow.stroke = color
+	arrow.linewidth = 3
+	
+	const circle = two.makeCircle(x, y, 4)
+	circle.noFill()
+	circle.stroke = color
+	circle.linewidth = 3
+
+	const group = two.makeGroup([arrow, circle])
+
+	return {
+		arrow: group,
+		x2,
+		y2
+	}
+}
 
 function makeInterpolCircle(colorInner, colorOuter) {
 	const circle = two.makeCircle(0, 0, 5)
