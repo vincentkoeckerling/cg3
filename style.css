@@ -124,6 +124,16 @@ body>.section {
 	padding-left: 30%;
 }
 
+.rightside {
+	position: absolute;
+	left: 50%;
+	margin-top: 4pt;
+}
+
+#lastOnTheRight {
+	margin-top: 5pt;
+}
+
 .navbar {
 	padding-inline: 2rem !important;
 	justify-content: center;
