@@ -9,6 +9,7 @@ export class ControlCenter {
 
 		this.t = 0.5
 		this.tMax = 1.0
+		this.tRate = 0.002;
 		this.tValueInputs = Array.from(document.querySelectorAll('.t-value'))
 		this.lastUpdate = Date.now()
 
@@ -43,7 +44,7 @@ export class ControlCenter {
 	}
 
 	animate() {
-		this.setT((this.t + 0.002) % this.tMax)
+		this.setT((this.t + this.tRate) % this.tMax)
 
 		if (this.isAnimating) {
 			requestAnimationFrame(this.animate.bind(this))

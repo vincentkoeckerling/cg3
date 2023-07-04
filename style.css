@@ -173,3 +173,7 @@ body>.section {
 #intro-text > * {
 	max-width: 45ch;
 }
+
+#curve_canvas {
+	height:40pt;
+}
