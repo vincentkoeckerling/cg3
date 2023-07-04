@@ -1,5 +1,6 @@
 import Two from 'two.js'
 import { ControlCenter } from './control_center.js'
+import { b0, b1, b2, b3 } from './bernstein.js';
 
 const controlCenter = new ControlCenter()
 
@@ -65,6 +66,13 @@ const interpolationPoints = [
 const resultPoint = two.makeCircle(0, 0, 12)
 resultPoint.stroke = '#b5b5b5'
 
+// Vectors
+
+let vector1 = makeVector(0, 0, point1.position.x, point1.position.y, b0(0.5))
+let vector2 = makeVector(vector1.destinationX, vector1.destinationY, point2.position.x, point2.position.y, b1(0.5))
+let vector3 = makeVector(vector2.destinationX, vector2.destinationY, point3.position.x, point3.position.y, b2(0.5))
+let vector4 = makeVector(vector3.destinationX, vector3.destinationY, point4.position.x, point4.position.y, b3(0.5))
+
 // Update
 
 function update() {
@@ -117,6 +125,18 @@ function update() {
 		resultPath.vertices.push(position)
 	}
 
+	// Vectors
+
+	vector1.arrow.remove()
+	vector2.arrow.remove()
+	vector3.arrow.remove()
+	vector4.arrow.remove()
+	
+	vector1 = makeVector(0, 0, point1.position.x, point1.position.y, b0(t))
+	vector2 = makeVector(vector1.destinationX, vector1.destinationY, point2.position.x, point2.position.y, b1(t))
+	vector3 = makeVector(vector2.destinationX, vector2.destinationY, point3.position.x, point3.position.y, b2(t))
+	vector4 = makeVector(vector3.destinationX, vector3.destinationY, point4.position.x, point4.position.y, b3(t))
+
 	// Visibility
 
 	if (interpolationPointsVisible) {
@@ -134,6 +154,8 @@ function update() {
 
 two.bind('update', update)
 two.play()
+
+controlCenter.requestUpdate()
 
 // Draggable
 
@@ -163,6 +185,19 @@ function makeDraggableCircle(x, y) {
 }
 
 // Util
+
+function makeVector(x, y, dx, dy, scale) {
+	const destinationX = x + dx * scale
+	const destinationY = y + dy * scale
+
+	const arrow = two.makeArrow(x, y, destinationX, destinationY)
+
+	return {
+		arrow,
+		destinationX,
+		destinationY
+	}
+}
 
 function makeInterpolCircle(colorInner, colorOuter) {
 	const circle = two.makeCircle(0, 0, 5)

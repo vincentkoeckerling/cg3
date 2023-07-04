@@ -1,5 +1,6 @@
 import Two from "two.js";
 import { ControlCenter } from "./control_center.js";
+import { b0, b1, b2, b3 } from './bernstein.js';
 
 const controlCenter = new ControlCenter()
 
@@ -84,6 +85,8 @@ function update() {
 two.bind('update', update)
 two.play()
 
+controlCenter.requestUpdate()
+
 function makePoint(colorInner, colorOuter) {
 	const circle = two.makeCircle(0, 0, 4)
 	circle.fill = colorInner
@@ -98,20 +101,4 @@ function convertPoint(x, y) {
 		x * two.width,
 		two.height - y * two.height
 	) 
-}
-
-function b0(t) {
-	return Math.pow(1 - t, 3)
-}
-
-function b1(t) {
-	return 3 * t * Math.pow(1 - t, 2)
-}
-
-function b2(t) {
-	return 3 * Math.pow(t, 2) * (1 - t)
-}
-
-function b3(t) {
-	return Math.pow(t, 3)
 }
