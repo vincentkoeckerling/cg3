@@ -7,6 +7,12 @@ document.getElementById('draw-full-curve').addEventListener('change', (e) => {
 	controlCenter.requestUpdate()
 })
 
+let vectorsVisible
+document.getElementById('show-vectors').addEventListener('change', (e) => {
+	vectorsVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 const controlCenter = new ControlCenter()
 controlCenter.tMax = 2.0
 
@@ -77,28 +83,30 @@ function update() {
 
     vectorGroup.children.forEach(v => v.remove())
     
-    if (controlCenter.t <= 1.0) {
-        const m0 = {
-            x: m0a.position.x - p0c.position.x,
-            y: m0a.position.y - p0c.position.y,
-        }
-    
-        const m1 = {
-            x: m1a.position.x - p1c.position.x,
-            y: m1a.position.y - p1c.position.y,
-        }
-        drawVectors(p0c, p1c, m0, m1, controlCenter.t)
-    } else {
+    if (vectorsVisible) {
+        if (controlCenter.t <= 1.0) {
+            const m0 = {
+                x: m0a.position.x - p0c.position.x,
+                y: m0a.position.y - p0c.position.y,
+            }
         
-        const m1 = {
-            x: m1a.position.x - p1c.position.x,
-            y: m1a.position.y - p1c.position.y,
+            const m1 = {
+                x: m1a.position.x - p1c.position.x,
+                y: m1a.position.y - p1c.position.y,
+            }
+            drawVectors(p0c, p1c, m0, m1, controlCenter.t)
+        } else {
+            
+            const m1 = {
+                x: m1a.position.x - p1c.position.x,
+                y: m1a.position.y - p1c.position.y,
+            }
+            const m2 = {
+                x: m2a.position.x - p2c.position.x,
+                y: m2a.position.y - p2c.position.y,
+            }
+            drawVectors(p1c, p2c, m1, m2, controlCenter.t - 1)
         }
-        const m2 = {
-            x: m2a.position.x - p2c.position.x,
-            y: m2a.position.y - p2c.position.y,
-        }
-        drawVectors(p1c, p2c, m1, m2, controlCenter.t - 1)
     }
 }
 
@@ -194,7 +202,7 @@ function drawBetterArrow(p, m) {
 
 function makeDraggableArrowhead(x, y) {
     const point = two.makeCircle(x, y, 14)
-    // point.opacity = 0.00001; // bei opacity=0 kann der Punkt einmal bewegt werden, beim zweiten Anklicken reagiert er nicht mehr
+    point.opacity = 0.00001; // bei opacity=0 kann der Punkt einmal bewegt werden, beim zweiten Anklicken reagiert er nicht mehr
     point.linewidth = 0
     two.update()
     point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
