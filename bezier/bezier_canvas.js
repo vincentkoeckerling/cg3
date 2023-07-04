@@ -4,6 +4,12 @@ import { b0, b1, b2, b3 } from './bernstein.js';
 
 const controlCenter = new ControlCenter()
 
+let drawFullCurve = true
+document.getElementById('draw-full-curve').addEventListener('change', (e) => {
+	drawFullCurve = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 let interpolationPointsVisible
 document.getElementById('show-points').addEventListener('change', (e) => {
 	interpolationPointsVisible = e.currentTarget.checked
@@ -123,7 +129,9 @@ function update() {
 
 	resultPath.vertices.length = 0
 
-	for (let t = 0; t <= 1.001; t += 0.02) {
+	let tMax = controlCenter.t
+	if (drawFullCurve) tMax = 1
+	for (let t = 0; t <= tMax + 0.001; t += 0.02) {
 		const position = cubicBezier(position1, position2, position3, position4, t)
 		resultPath.vertices.push(position)
 	}
