@@ -5,27 +5,6 @@ const controlCenter = new ControlCenter()
 const canvasElement = document.getElementById('side_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
 
-const textOptions = {
-    size: '20px',
-    family: "'Times New Roman', Times, serif",
-}
-
-const h0Label = two.makeText('H₀(t)', 0, 0, textOptions)
-h0Label.position = new Two.Vector(0.2* two.width, 0.2 * two.height)
-h0Label.fill = '#D08240'
-
-const h1Label = two.makeText('H₁(t)', 0, 0, textOptions)
-h1Label.position = new Two.Vector(0.81* two.width, 0.2 * two.height)
-h1Label.fill = '#408ED0'
-
-const h0sLabel = two.makeText('H₀\'(t)', 0, 0, textOptions)
-h0sLabel.position = new Two.Vector(0.55* two.width, 0.65 * two.height)
-h0sLabel.fill = '#CA40D0'
-
-const h1sLabel = two.makeText('H₁\'(t)', 0, 0, textOptions)
-h1sLabel.position = new Two.Vector(0.2* two.width, 0.9 * two.height)
-h1sLabel.fill = '#46D040'
-
 two.makeArrow(0, two.height, 0, 0)
 two.makeArrow(0, two.height * 0.8, two.width, two.height * 0.8)
 
@@ -79,7 +58,7 @@ for (let x = 0; x <= 100; x++) {
     path4.vertices.push(pos);
 }
 
-var pointH1s = makePoint('#D08240', '#f2974a');
+var pointH1s = makePoint('#8ED040', '#a2ef4a');
 
 
 

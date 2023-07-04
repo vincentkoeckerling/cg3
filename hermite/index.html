@@ -42,11 +42,6 @@
 					</div>
 				</div>
 				<div class="scroll-sidebar">
-
-					<div class="box">
-						<h1 class="is-size-3">Basisfunktionen</h1><br>
-						<div id="side_canvas"></div>
-					</div>
 					<div class="box" id="explanation">
 						<span>
 							Die gesuchte Funktion soll durch die Punkte verlaufen und dabei die entsprechende Steigung
@@ -54,10 +49,46 @@
 						</span>
 						<br>
 						<span>
-							Die Positionen zwischen den gegebenen Punkten werden über die Steigung berechnet.
-							Dazu wird ein gewichtetes Mittel der Steigungen der beiden umgebenden Punkte berechnet.
+							Um die Positionen zwischen den gegebenen Punkten zu ermitteln, wird ein
+							gewichtetes Mittel der beiden umgebenden Punkte und der Steigungen dieser berechnet.
 						</span>
-
+					</div>
+					<div class="box">
+						<h3 class="has-text-weight-bold">Basisfunktionen</h1>
+						<span>
+							Aus den Kurvenverläufen der Basisfunktionen geht hervor, in welchem Maße die Punkte bzw. die Ableitungen
+							Einfluss auf die Position zum Zeitpunkt 
+							<span class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span> 
+							nehmen. <br> Die Gewichtung verändert sich also in Abhängigkeit zu 
+							<span class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span> 
+							.
+						</span><br><br>
+						<div id="side_canvas">
+							<img id="curveH0" src="/assets/basisfunktionen_formeln/H0_c.svg" alt="">
+							<img id="curveHs0" src="/assets/basisfunktionen_formeln/Hs0_c.svg" alt="">
+							<img id="curveH1" src="/assets/basisfunktionen_formeln/H1_c.svg" alt="">
+							<img id="curveHs1" src="/assets/basisfunktionen_formeln/Hs1_c.svg" alt="">
+						</div>
+						<br>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/H0.svg" alt="" class="basis"><br>
+						</div>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/Hs0.svg" alt="" class="basis"><br>
+						</div>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/H1.svg" alt="" class="basis"><br>
+						</div>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/Hs1.svg" alt="" class="basis"><br>
+						</div><br>
+						<span>Zur Berechnung der Interpolationskurve ergibt sich also:</span>
+						<div class="mt-2 is-flex is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/EquationFirstHalf.svg" alt="" id="eq1">
+						</div>
+						<div class="mt-2 is-flex is-justify-content-center">
+							<img src="/assets/basisfunktionen_formeln/EquationSecondHalf.svg" alt="" id="eq2">
+						</div>
 					</div>
 				</div>
 			</div>
