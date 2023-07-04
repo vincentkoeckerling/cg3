@@ -1,6 +1,12 @@
 import Two from 'two.js'
 import { ControlCenter } from '../bezier/control_center'
 
+let drawFullCurve = true
+document.getElementById('draw-full-curve').addEventListener('change', (e) => {
+	drawFullCurve = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 const controlCenter = new ControlCenter()
 controlCenter.tMax = 2.0
 
@@ -53,8 +59,18 @@ function update() {
     arrow2 = drawBetterArrow(p2c, m2a)
     middleground.add(arrow0, arrow1, arrow2)
     curve.vertices.length = 0
-    basistransform([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y])
-    basistransform([p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y])
+
+    if (drawFullCurve) {
+        basistransform([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y], 1.0)
+        basistransform([p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y], 1.0)
+    } else {
+        basistransform([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y], Math.min(controlCenter.t, 1.0))
+
+        if (controlCenter.t > 1.0) {
+            basistransform([p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y], controlCenter.t - 1)
+        }
+    }
+
     tPoint([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y])
 
 }
@@ -126,10 +142,10 @@ function makeDraggableArrowhead(x, y) {
 // Basistransformation
 // p(t) = (2*t³ - 3*t² + 1)*p0 + (-2*t³ + 3*t²)*p1 + (t³ - 2*t² + t)*m0 + (t³ - t²)*m1
 //              H0(t)                   H1(t)               H'0(t)              H'1(t)
-function basistransform(point0, point1, mPoint0, mPoint1) {
+function basistransform(point0, point1, mPoint0, mPoint1, tMax) {
     let mp0 = [mPoint0[0] - point0[0], mPoint0[1] - point0[1]];
     let mp1 = [mPoint1[0] - point1[0], mPoint1[1] - point1[1]];
-    for (let t = 0; t <= 1.001; t += 0.01) {
+    for (let t = 0; t <= tMax + 0.001; t += 0.01) {
         let x = (2 * Math.pow(t, 3) - 3 * Math.pow(t, 2) + 1) * point0[0]
             + (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2)) * point1[0]
             + (Math.pow(t, 3) - 2 * Math.pow(t, 2) + t) * mp0[0]
