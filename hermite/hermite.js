@@ -7,6 +7,12 @@ document.getElementById('draw-full-curve').addEventListener('change', (e) => {
 	controlCenter.requestUpdate()
 })
 
+let vectorsVisible
+document.getElementById('show-vectors').addEventListener('change', (e) => {
+	vectorsVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 const controlCenter = new ControlCenter()
 controlCenter.tMax = 2.0
 
@@ -48,6 +54,8 @@ var m1a = makeDraggableArrowhead(m1[0], m1[1])
 var m2a = makeDraggableArrowhead(m2[0], m2[1])
 foreground.add(m0a, m1a, m2a)
 
+const vectorGroup = two.makeGroup()
+
 function update() {
     if (!controlCenter.shouldUpdate()) return
 
@@ -73,6 +81,33 @@ function update() {
 
     tPoint([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y])
 
+    vectorGroup.children.forEach(v => v.remove())
+    
+    if (vectorsVisible) {
+        if (controlCenter.t <= 1.0) {
+            const m0 = {
+                x: m0a.position.x - p0c.position.x,
+                y: m0a.position.y - p0c.position.y,
+            }
+        
+            const m1 = {
+                x: m1a.position.x - p1c.position.x,
+                y: m1a.position.y - p1c.position.y,
+            }
+            drawVectors(p0c, p1c, m0, m1, controlCenter.t)
+        } else {
+            
+            const m1 = {
+                x: m1a.position.x - p1c.position.x,
+                y: m1a.position.y - p1c.position.y,
+            }
+            const m2 = {
+                x: m2a.position.x - p2c.position.x,
+                y: m2a.position.y - p2c.position.y,
+            }
+            drawVectors(p1c, p2c, m1, m2, controlCenter.t - 1)
+        }
+    }
 }
 
 two.bind('update', update)
@@ -102,6 +137,42 @@ mainCanvas.addEventListener('mousemove', (e) => {
 
     controlCenter.requestUpdate()
 })
+
+function drawVectors(pos1, pos2, m1, m4, t) {
+    const scale1 = (2 * Math.pow(t, 3) - 3 * Math.pow(t, 2) + 1)
+    const scale2 = (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2))
+    const scale3 = (Math.pow(t, 3) - 2 * Math.pow(t, 2) + t)
+    const scale4 = (Math.pow(t, 3) - Math.pow(t, 2))
+
+    const vector1 = makeVector(two.width / 2, two.height / 2, pos1.position.x - two.width / 2, pos1.position.y - two.height / 2, scale1, '#D08240')
+	const vector2 = makeVector(vector1.x2, vector1.y2, pos2.position.x - two.width / 2, pos2.position.y - two.height / 2, scale2, '#408ed0')
+	const vector3 = makeVector(vector2.x2, vector2.y2, m1.x, m1.y, scale3, '#CA40D0')
+	const vector4 = makeVector(vector3.x2, vector3.y2, m4.x, m4.y, scale4, '#46D040')
+    
+	vectorGroup.add(vector4.arrow, vector3.arrow, vector2.arrow, vector1.arrow)
+}
+
+function makeVector(x, y, dx, dy, scale, color) {
+	const x2 = x + dx * scale
+	const y2 = y + dy * scale
+
+	const arrow = two.makeArrow(x, y, x2, y2)
+	arrow.stroke = color
+	arrow.linewidth = 3
+	
+	const circle = two.makeCircle(x, y, 4)
+	circle.noFill()
+	circle.stroke = color
+	circle.linewidth = 3
+
+	const group = two.makeGroup([arrow, circle])
+    
+	return {
+		arrow: group,
+		x2,
+		y2
+	}
+}
 
 function makeDraggableCircle(x, y) {
     const point = two.makeCircle(x, y, 10)
