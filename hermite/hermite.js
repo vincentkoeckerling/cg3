@@ -115,9 +115,7 @@ function drawBetterArrow(p, m) {
 
 function makeDraggableArrowhead(x, y) {
     const point = two.makeCircle(x, y, 14)
-    point.opacity = 0.00001; // bei opacity=0 kann der Punkt einmal bewgt werden, beim zweiten Anklicken reagiert er nicht mehr
-    point.stroke = '#D08240'
-    point.fill = '#D08240'
+    point.opacity = 0.00001; // bei opacity=0 kann der Punkt einmal bewegt werden, beim zweiten Anklicken reagiert er nicht mehr
     point.linewidth = 0
     two.update()
     point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
