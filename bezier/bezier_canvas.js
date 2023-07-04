@@ -16,6 +16,12 @@ document.getElementById('show-lines').addEventListener('change', (e) => {
 	controlCenter.requestUpdate()
 })
 
+let vectorsVisible
+document.getElementById('show-vectors').addEventListener('change', (e) => {
+	vectorsVisible = e.currentTarget.checked
+	controlCenter.requestUpdate()
+})
+
 const canvasElement = document.getElementById('bezier_canvas')
 const two = new Two({ fitted: true }).appendTo(canvasElement)
 
@@ -125,7 +131,9 @@ function update() {
 	// Vectors
 
 	bernsteinGroup.children.forEach(v => v.remove())
-	drawBernsteins(t)
+	if (vectorsVisible) {
+		drawBernsteins(t)
+	}
 
 	// Visibility
 
@@ -205,22 +213,6 @@ function makeVector(x, y, dx, dy, scale, color) {
 		x2,
 		y2
 	}
-}
-
-function convertXToCalcSystem(x) {
-	return (x / two.width - 0.5) * 2
-}
-
-function convertYToCalcSystem(y) {
-	return -(y / two.height - 0.5) * 2
-}
-
-function convertXToRealSystem(x) {
-	return (x / 2 + 0.5) * two.width
-}
-
-function convertYToRealSystem(y) {
-	return  (-y / 2 + 0.5) * two.height
 }
 
 function makeInterpolCircle(colorInner, colorOuter) {
