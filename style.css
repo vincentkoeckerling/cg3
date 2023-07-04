@@ -28,6 +28,42 @@ body>.section {
 	overflow: visible !important;
 }
 
+#side_canvas {
+	position: relative;
+}
+
+#curveH0, #curveHs0, #curveH1, #curveHs1 {
+	position: absolute;
+}
+
+#curveH0 {
+    left: 15%;
+    top: 15%;
+}
+
+#curveHs0 {
+    left: 50%;
+    bottom: 35%;
+}
+
+#curveH1 {
+    right: 15%;
+    top: 15%;
+}
+
+#curveHs1 {
+    left: 20%;
+    bottom: 8%;
+}
+
+#eq1 {
+	padding-top: 8pt;
+}
+
+#eq2 {
+	padding-left: 30pt;
+}
+
 .sidebar {
 	max-width: 500px;
 }
@@ -81,6 +117,11 @@ body>.section {
 
 .poylnom-1 {
 	max-height: 20px;
+}
+
+.basis {
+	max-height: 20px;
+	padding-left: 30%;
 }
 
 .navbar {
