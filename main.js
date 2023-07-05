@@ -48,10 +48,10 @@ let m0 = [87 * w, 20 * h]
 let m1 = [75 * w, 15 * h]
 let n0 = [84 * w, 39 * h]
 let n1 = [87 * w, 51 * h]
-let o0 = [94 * w, 50 * h]
+let o0 = [90 * w, 50 * h]
 let o1 = [100 * w, 60 * h]
-let p0 = [82 * w, 85 * h]
-let p1 = [70 * w, 92 * h]
+let p0 = [87 * w, 85 * h]
+let p1 = [74 * w, 92 * h]
 
 
 var pointArray = [a0, a1, c0, c1, e0, e1, f0, f1, i0, i1, j0, j1, k0, k1, l0, l1, m0, m1, n0, n1, o0, o1, p0, p1,]
