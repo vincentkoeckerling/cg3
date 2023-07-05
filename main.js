@@ -1,107 +1,120 @@
 import Two from 'two.js'
 import { ControlCenter } from './bezier/control_center'
+import { floor } from 'mathjs'
 
 const controlCenter = new ControlCenter()
+
+controlCenter.onPlayButtonClicked();
+controlCenter.setT(0);
 
 const mainCanvas = document.getElementById('curve_canvas')
 const two = new Two({ fitted: true }).appendTo(mainCanvas)
 const curve = two.makePath();
 
 curve.noFill().closed = false;
-curve.stroke = '#36454F';
+curve.stroke = '#808080';
 curve.linewidth = 2
 
-let p0 = [two.width*0.15, two.height*0.6]
-let p1 = [two.width*0.45, two.height*0.4]
-let p2 = [two.width*0.75, two.height*0.7]
-let m0 = [two.width*0.2, two.height*0.4]
-let m1 = [two.width*0.7, two.height*0.35]
-let m2 = [two.width*0.9, two.height*0.6]
-
-var p0c = makeDraggableCircle(p0[0], p0[1])
-var p1c = makeDraggableCircle(p1[0], p1[1])
-var p2c = makeDraggableCircle(p2[0], p2[1])
-
-var tpoint = two.makeCircle(0, 0, 10);
-tpoint.stroke = '#b5b5b5'
 
 
-var m0a = makeDraggableArrowhead(m0[0], m0[1])
-var m1a = makeDraggableArrowhead(m1[0], m1[1])
-var m2a = makeDraggableArrowhead(m2[0], m2[1])
+let h = two.height / 100
+let w = two.width / 100
 
-controlCenter.onPlayButtonClicked();
-controlCenter.setT(0);
-controlCenter.tMax = 2
-controlCenter.tRate = 0.02
+let a0 = [10 * w, 35 * h]
+let a1 = [0 * w, 100 * h]
+let b0 = [5 * w, 40 * h]
+let b1 = [5 * w, 10* h]
+let c0 = [10 * w, 12 * h]
+let c1 = [24 * w, 12 * h]
+let d0 = [18 * w, 45 * h]
+let d1 = [18 * w, 85 * h]
+let e0 = [17 * w, 75 * h]
+let e1 = [12 * w, 95 * h]
+let f0 = [15 * w, 65 * h]
+let f1 = [25 * w, 40 * h]
+let g0 = [25 * w, 70 * h]
+let g1 = [30 * w, 70 * h]
+let h0 = [25 * w, 80 * h]
+let h1 = [25 * w, 60 * h]
+let i0 = [30 * w, 55 * h]
+let i1 = [45 * w, 60 * h]
+let j0 = [45 * w, 70 * h]
+let j1 = [65 * w, 70 * h]
+let k0 = [62 * w, 55 * h]
+let k1 = [75 * w, 50 * h]
+let l0 = [75 * w, 65 * h]
+let l1 = [85 * w, 60 * h]
+let m0 = [87 * w, 20 * h]
+let m1 = [75 * w, 15 * h]
+let n0 = [84 * w, 39 * h]
+let n1 = [87 * w, 51 * h]
+let o0 = [94 * w, 40 * h]
+let o1 = [100 * w, 50 * h]
+let p0 = [82 * w, 85 * h]
+let p1 = [70 * w, 92 * h]
+
+
+var pointArray = [a0, a1,  c0, c1,  e0, e1, f0, f1,  i0, i1, j0, j1, k0, k1, l0, l1, m0, m1, n0, n1, o0, o1, p0, p1,]
+
+/*for (var i = 0; i < pointArray.length; i += 2) {
+    var pointy = two.makeCircle(pointArray[i][0], pointArray[i][1], 2)
+    pointy.stroke = '#808080'
+    pointy.fill='#808080'
+    pointy.opacity = 0.4
+}
+*/
+for (var i = 1; i < pointArray.length; i += 2) {
+   // two.makeCircle(pointArray[i][0], pointArray[i][1], 2)
+}
+
+controlCenter.tMax = pointArray.length/2-1
+controlCenter.tRate = 0.0247
 
 function update() {
     if (!controlCenter.shouldUpdate()) return
-   switchCurves([p0c.position.x, p0c.position.y], [p1c.position.x, p1c.position.y], [p2c.position.x, p2c.position.y], [m0a.position.x, m0a.position.y], [m1a.position.x, m1a.position.y], [m2a.position.x, m2a.position.y])
+    tPoint(pointArray)
 
 }
 
 two.bind('update', update)
 two.play()
 
-
-
-
 mainCanvas.addEventListener('load', (e) => {
     controlCenter.animate();
 })
 
-function makeDraggableCircle(x, y) {
-    const point = two.makeCircle(x, y, 0)
-
-    two.update()
-    
-    return point
-}
 
 
-function makeDraggableArrowhead(x, y) {
-    const point = two.makeCircle(x, y, 14)
-    point.opacity = 0.00001; // bei opacity=0 kann der Punkt einmal bewegt werden, beim zweiten Anklicken reagiert er nicht mehr
-    point.linewidth = 0
-    two.update()
-    point.renderer.elem.addEventListener('mousedown', () => currentClickedPoint = point)
-    
-    return point
-}
 
-function switchCurves(point0, point1, point2, mPoint0, mPoint1, mPoint2){
-	let t = controlCenter.t;
-	let mp0 = [mPoint0[0] - point0[0], mPoint0[1] - point0[1]];
-    let mp1 = [mPoint1[0] - point1[0], mPoint1[1] - point1[1]];
-    let mp2 = [mPoint2[0] - point2[0], mPoint2[1] - point2[1]];
-	if(t<=1){
-		tPoint(point0, point1, mp0, mp1)
-	}else{
-		tPoint(point1, point2, mp1, mp2)
-	}
-	if(t>=1.95){
-		curve.vertices =0
-	}
-	
-}
-
-function tPoint(point0, point1, mp0, mp1) {
+function tPoint(array) {
     let t = controlCenter.t;
-	let x = t%1
+    let x = t % 1
+    var c = floor(t) * 2
+
+    if (t >= (array.length / 2) - 1.04) {
+        curve.vertices = 0
+        return
+    }
     
-        let m = (2 * Math.pow(x, 3) - 3 * Math.pow(x, 2) + 1) * point0[0]
-            + (-2 * Math.pow(x, 3) + 3 * Math.pow(x, 2)) * point1[0]
-            + (Math.pow(x, 3) - 2 * Math.pow(x, 2) + x) * mp0[0]
-            + (Math.pow(x, 3) - Math.pow(x, 2)) * mp1[0];
-        let y = (2 * Math.pow(x, 3) - 3 * Math.pow(x, 2) + 1) * point0[1]
-            + (-2 * Math.pow(x, 3) + 3 * Math.pow(x, 2)) * point1[1]
-            + (Math.pow(x, 3) - 2 * Math.pow(x, 2) + x) * mp0[1]
-            + (Math.pow(x, 3) - Math.pow(x, 2)) * mp1[1];
-        tpoint.position.x = m
-        tpoint.position.y = y
-		curve.vertices.push(new Two.Vector(m, y))
-   
+    var point0 = array[c]
+    var mPoint0 = array[c+1]
+    var point1 = array[c+2]
+    var mPoint1 = array[c+3]
+    
+    let mp0 = [mPoint0[0] - point0[0], mPoint0[1] - point0[1]];
+    let mp1 = [mPoint1[0] - point1[0], mPoint1[1] - point1[1]];
+    
+    let xx = (2 * Math.pow(x, 3) - 3 * Math.pow(x, 2) + 1) * point0[0]
+        + (-2 * Math.pow(x, 3) + 3 * Math.pow(x, 2)) * point1[0]
+        + (Math.pow(x, 3) - 2 * Math.pow(x, 2) + x) * mp0[0]
+        + (Math.pow(x, 3) - Math.pow(x, 2)) * mp1[0];
+    let y = (2 * Math.pow(x, 3) - 3 * Math.pow(x, 2) + 1) * point0[1]
+        + (-2 * Math.pow(x, 3) + 3 * Math.pow(x, 2)) * point1[1]
+        + (Math.pow(x, 3) - 2 * Math.pow(x, 2) + x) * mp0[1]
+        + (Math.pow(x, 3) - Math.pow(x, 2)) * mp1[1];
+
+    curve.vertices.push(new Two.Vector(xx, y))
+    
 
 }
 

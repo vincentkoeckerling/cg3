@@ -170,10 +170,29 @@ body>.section {
 	margin: 0;
 }
 
-#intro-text > * {
+#underlinedTitle {
+	position: relative;
+}
+
+.subtitle {
+	margin-top: 12pt;
+}
+
+.title {
+	position: absolute;
+	top: 60pt;
+	left:0;
+	right:0;	
+}
+
+#intro-text > * {	
+	margin-top: 0pt;
 	max-width: 45ch;
 }
 
 #curve_canvas {
-	height:40pt;
+	margin-top: 0pt;
+	height:100pt;
 }
+
+
