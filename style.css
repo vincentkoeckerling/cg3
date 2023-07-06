@@ -180,13 +180,13 @@ body>.section {
 
 .title {
 	position: absolute;
-	top: 60pt;
+	top: 45pt;
 	left:0;
 	right:0;	
 }
 
 #intro-text > * {	
-	margin-top: 100pt;
+	margin-top: 90pt;
 	max-width: 45ch;
 }
 
@@ -197,7 +197,7 @@ body>.section {
 
 #curve_canvas, #curve_canvas2 {
 	position: absolute;
-	margin-top: 0pt;
+	margin-top: -10pt;
 	height:100pt;
 	left:0;
 	right:0;	
