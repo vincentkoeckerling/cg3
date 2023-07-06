@@ -1,5 +1,8 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
-@import 'https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css';
+/* @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+@import 'https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css'; */
+
+@import 'bulma/css/bulma.min.css';
+@import 'bulma-slider/dist/css/bulma-slider.min.css';
 
 body>.section {
 	height: 100vh;
