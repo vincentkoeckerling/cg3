@@ -3,29 +3,39 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/cg3-9ad9a714.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Computer Grafik 3: Interpolation</title>
   
   
-  <script type="module" crossorigin src="/assets/main-66c2d315.js"></script>
-  <link rel="stylesheet" href="/assets/style-2053df3b.css">
+  
+  <script type="module" crossorigin src="/assets/main-3f45405a.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/style-5280ba96.js">
+  <link rel="modulepreload" crossorigin href="/assets/control_center-768d83c8.js">
+  <link rel="modulepreload" crossorigin href="/assets/pureFunctionsAny.generated-0971bd0f.js">
+  <link rel="stylesheet" href="/assets/style-ab65f224.css">
 </head>
 
 <body class="has-background-light">
-  <div
-    class="section is-full-height is-flex is-flex-direction-column is-align-items-center">
+  <div class="section is-full-height is-flex is-flex-direction-column is-align-items-center">
     <div class="is-flex is-flex-direction-column is-align-items-stretch">
       <div class="box">
-        <h1 class="title is-1 has-text-centered">Computergrafik 3</h1>
-        <p class="subtitle is-3 has-text-centered">Interpolation</p>
-        <div id="intro-text" class="has-text-centered is-flex is-flex-direction-column is-align-items-center mt-5">
+        <div id="underlinedTitle">
+          <p class="subtitle is-4 has-text-centered">Computergrafik 3</p>
+          <h1 class="title is-1 has-text-centered">Interpolation</h1>
+          <div class="underlineFunction">
+            <div id="curve_canvas"></div>
+            <div id="curve_canvas2"></div>
+          </div>
+        </div>
+
+        <div id="intro-text" class="has-text-centered is-flex is-flex-direction-column is-align-items-center">
           <p>
-            Interpolation ist die Berechnung einer <br> kontinuierlichen Kurve in Abhängigkeit von gegebenen Punkten. 
+            Interpolation ist die Berechnung einer Kurve in Abhängigkeit von gegebenen Punkten.
           </p>
           <p class="mt-2 is-hidden">
             In der Animation wird zum Beispiel zwischen Keyframes interpoliert um für jeden Zwischenschritt <br> einen
-            konkreten Wert zu erhalten 
+            konkreten Wert zu erhalten
           </p>
           <p class="mt-2">
             Klicke unten, um mehr über verschiedenen Arten <br> der Interpolation zu erfahren!
@@ -39,7 +49,15 @@
       </div>
     </div>
     <div>
-
+      <div class="is-flex is-align-items-center is-hidden">
+        <div class="is-flex-shrink-0 is-align-items-center is-flex mr-4">
+          <span class="is-flex-shrink-0 is-size-4 is-italic is-family-roman">t = &nbsp;</span>
+          <input class="t-value input is-small" type="number" max="2" min="0" step="0.01" value="0.5">
+        </div>
+        <input class="t-value slider is-fullwidth is-info is-circle" type="range" min="0" max="2" step="0.001"
+          value="0.5">
+        <button id="play-button" class="button is-info is-light ml-4">Play</button>
+      </div>
     </div>
   </div>
 </body>

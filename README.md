@@ -18,6 +18,11 @@ npm install
 npm run dev
 ```
 
+## Browser
+
+- Chrome
+- Firefox (eingeschränkt)
+
 ## Verwendete Libraries
 
 - two.js (https://two.js.org/)
