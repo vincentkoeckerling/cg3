@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	
+	
+	
+  <script type="module" crossorigin src="/assets/hermite-289928a3.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-66c2d315.js">
+  <link rel="modulepreload" crossorigin href="/assets/two.module-cd4d32c0.js">
+  <link rel="modulepreload" crossorigin href="/assets/control_center-152a0153.js">
+  <link rel="stylesheet" href="/assets/style-2053df3b.css">
+</head>
+
+<body class="has-background-light">
+	<div class="navbar is-fixed-top">
+		<a class="navbar-item is-tab" href="/polynominterpolation/">
+			Polynominterpolation
+		</a>
+		<a class="navbar-item is-tab is-active">
+			Hermiteinterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/bezier/">
+			Bézierkurven
+		</a>
+	</div>
+	<div class="section is-full-height">
+		<div class="columns is-full-height is-align-items-stretch">
+			<div class="column">
+				<div class="box is-full-height">
+					<div class="is-full-height" id="hermite_canvas"></div>
+				</div>
+			</div>
+			<div class="sidebar column is-flex is-flex-direction-column">
+				<div class="box">
+					<div class="is-flex is-align-items-center">
+						<div class="is-flex-shrink-0 is-align-items-center is-flex mr-4">
+							<span class="is-flex-shrink-0 is-size-4 is-italic is-family-roman">t = &nbsp;</span>
+							<input class="t-value input is-small" type="number" max="2" min="0" step="0.01" value="0.5">
+						</div>
+						<input class="t-value slider is-fullwidth is-info is-circle" type="range" min="0" max="2"
+							step="0.001" value="0.5">
+						<button id="play-button" class="button is-info is-light ml-4">Play</button>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label class="checkbox">
+								<input id="draw-full-curve" type="checkbox" checked>
+								Vollständige Kurve zeichnen
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="scroll-sidebar">
+					<div class="box">
+						<p class="has-text-justified">
+							Die gesuchte Funktion soll durch die Punkte verlaufen und dabei die entsprechende Steigung
+							in den Punkten annehmen.
+						</p>
+						<p class="has-text-justified">
+							Um die Positionen zwischen den gegebenen Punkten zu ermitteln, wird ein
+							gewichtetes Mittel der beiden Punkte und der Steigungen dieser berechnet.
+						</p>
+					</div>
+					<div class="box">
+						<h3 class="is-italic has-text-justified">Wie wird die Gewichtung und damit der Kurvenverlauf berechnet?</h3>
+						<p class="has-text-justified">Bekannt sind zwei Punkte und ihre Ableitungen. Gesucht ist ein kubisches Polynom,
+							welches die gegebenen Punkte bzw. Ableitungen interpoliert.<br>
+							Ein kubisches Polynom, also ein Polynom dritten Grades, hat folgende Form:
+						</p>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/kubischesPolynom-b7697fbd.svg" alt=""><br>
+						</div>
+						<p class="has-text-justified">
+							Die Ableitung eines kubischen Polynoms sieht dementsprechend so aus:
+						</p>
+						<div class="mt-2 is-justify-content-center">
+							<img src="/assets/kubischesPolynomAbleitung-65751dd5.svg" alt=""><br>
+						</div>
+						<p class="has-text-justified">
+							Setzt man nun die gegebenen Punkte ein, ergibt sich für diese:
+						</p>
+						<div class="mt-2 is-flex-direction-row is-relative">
+							<img src="/assets/f0-84a8b4a6.svg" alt="">
+							<img class="rightside" src="/assets/p0-8acee0b3.svg" alt="">
+						</div>
+						<div class="mt-2 is-flex-direction-row is-relative">
+							<img src="/assets/fs0-7e3aeb99.svg" alt="">
+							<img class="rightside" src="/assets/m0-e7a7a712.svg" alt="">
+						</div>
+						<div class="mt-2 is-flex-direction-row is-relative">
+							<img src="/assets/f1-87bb9693.svg" alt="">
+							<img class="rightside" src="/assets/p1-86041076.svg" alt="">
+						</div>
+						<div class="mt-2 is-flex-direction-row is-relative">
+							<img src="/assets/fs1-60ca041a.svg" alt="">
+							<img class="rightside" id="lastOnTheRight" src="/assets/m1-5dabe8ce.svg" alt="">
+						</div>
+						<p class="has-text-justified">
+							Diese vier Gleichungen löst man nun nach den Koeffizienten auf und setzt 
+							die Ergebnisse in die Polynomformel ein. Alternativ kann diese Berechnung auch über 
+							die Matrizenform und die Inverse der Matrix erfolgen.<br>
+							So ergibt sich folgende Funktion zur Berechnung der Interpolationskurve:
+						</p>
+						<div class="mt-2 is-flex is-justify-content-center">
+							<img src="/assets/EquationFirstHalf-5b726ddf.svg" alt="" id="eq1">
+						</div>
+						<div class="mt-2 is-flex is-justify-content-center">
+							<img src="/assets/EquationSecondHalf-b8c767b2.svg" alt="" id="eq2">
+						</div>
+
+					</div>
+					<div class="box">
+						<h3 class="has-text-weight-bold">Basisfunktionen</h1>
+							<p class="has-text-justified">
+								Aus den Kurvenverläufen der Basisfunktionen geht hervor, in welchem Maße die Punkte bzw.
+								die Ableitungen
+								Einfluss auf die Position zum Zeitpunkt
+								<span class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span>
+								nehmen. <br> Die Gewichtung verändert sich also in Abhängigkeit zu
+								<span class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span>
+								.
+							</p><br>
+							<div id="side_canvas">
+								<img id="curveH0" src="/assets/H0_c-67158395.svg" alt="">
+								<img id="curveHs0" src="/assets/Hs0_c-abd01630.svg" alt="">
+								<img id="curveH1" src="/assets/H1_c-9326c6a7.svg" alt="">
+								<img id="curveHs1" src="/assets/Hs1_c-bb64bffb.svg" alt="">
+							</div>
+							<br>
+							<div class="mt-2 is-justify-content-center">
+								<img src="/assets/H0-04c499bd.svg" alt="" class="basis"><br>
+							</div>
+							<div class="mt-2 is-justify-content-center">
+								<img src="/assets/Hs0-f1000732.svg" alt="" class="basis"><br>
+							</div>
+							<div class="mt-2 is-justify-content-center">
+								<img src="/assets/H1-3c0b69a2.svg" alt="" class="basis"><br>
+							</div>
+							<div class="mt-2 is-justify-content-center">
+								<img src="/assets/Hs1-c6f37704.svg" alt="" class="basis"><br>
+							</div><br>
+							<p class="has-text-justified">Zur Berechnung der Interpolationskurve ergibt sich also:</p>
+							<div class="mt-2 is-flex is-justify-content-center">
+								<img src="/assets/EquationFirstHalf-d25bbd10.svg" alt="" id="eq1">
+							</div>
+							<div class="mt-2 is-flex is-justify-content-center">
+								<img src="/assets/EquationSecondHalf-6861c664.svg" alt="" id="eq2">
+							</div>
+							<p class="mt-4">
+								Grafisch gesehen werden die Punktvektoren und die Steigungsvektoren mit den entsprechenden Basisfunktionen skaliert und addiert. 
+							</p>
+							<div class="field mt-2">
+								<div class="control">
+									<label class="checkbox">
+										<input id="show-vectors" type="checkbox">
+										Vektoren anzeigen
+									</label>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

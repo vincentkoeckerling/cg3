@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	
+	
+	
+  <script type="module" crossorigin src="/assets/bezier-de8372ba.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-66c2d315.js">
+  <link rel="modulepreload" crossorigin href="/assets/two.module-cd4d32c0.js">
+  <link rel="modulepreload" crossorigin href="/assets/control_center-152a0153.js">
+  <link rel="stylesheet" href="/assets/style-2053df3b.css">
+</head>
+
+<body class="has-background-light">
+	<div class="navbar is-fixed-top">
+		<a class="navbar-item is-tab" href="/polynominterpolation/">
+			Polynominterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/hermite/">
+			Hermiteinterpolation
+		</a>
+		<a class="navbar-item is-tab is-active">
+			Bézierkurven
+		</a>
+	</div>
+	<div class="section is-full-height is-relative">
+		<div class="columns is-full-height is-align-items-stretch">
+			<div class="column">
+				<div class="box is-full-height">
+					<div class="is-full-height" id="bezier_canvas"></div>
+				</div>
+			</div>
+			<div class="sidebar column is-flex is-flex-direction-column">
+				<div class="box">
+					<div class="is-flex is-align-items-center">
+						<div class="is-flex-shrink-0 is-align-items-center is-flex mr-4">
+							<span class="is-flex-shrink-0 is-size-4 is-italic is-family-roman">t = &nbsp;</span>
+							<input class="t-value input is-small" type="number" max="1" min="0" step="0.01" value="0.5">
+						</div>
+						<input class="t-value slider is-fullwidth is-info is-circle" type="range" min="0" max="1" step="0.001"
+							value="0.5">
+						<button id="play-button" class="button is-info is-light ml-4">Play</button>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label class="checkbox">
+								<input id="draw-full-curve" type="checkbox" checked>
+								Vollständige Kurve zeichnen
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="scroll-sidebar">
+					<div class="box">
+						<p class="has-text-justified">
+							Bézierkurven erlauben das Interpolieren einer Kurve zwischen zwei Punkten. Bei einer kubische
+							Bézierkurve wie hier werden dazu noch 2 weitere
+							Kontrollpunkte benötigt, die die Kurvenform bestimmen. Probier es aus!
+						</p>
+					</div>
+					<div class="box">
+						<h3 class="has-text-weight-bold">DeCasteljau-Algorithmus</h3>
+						<p class="has-text-justified">
+							Um den Punkt an einer beliebigen Stelle <span
+								class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span> zu berechnen, wird
+							zwischen den Kontrollpunkten rekursiv linear interpoliert.<br>
+							Also erst zwischen den Kontrollpunkten. Dann zwischen den daraus interpolierten Punkten. Und so
+							weiter
+							bis nur noch ein Punkt übrig ist.
+						</p>
+						<div class="field mt-5">
+							<div class="control">
+								<label class="checkbox">
+									<input id="show-points" type="checkbox">
+									Zwischenpunkte anzeigen
+								</label>
+							</div>
+							<div class="control">
+								<label class="checkbox">
+									<input id="show-lines" type="checkbox">
+									Linien anzeigen
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="box has-text-justified">
+						<h3 class="has-text-weight-bold">Bernstein-Polynome</h3>
+						<p>
+							Bézierkurven können auch durch die kubischen Bernstein-Polynome berechnet werden.
+						</p>
+						<div class="mt-4 is-flex is-justify-content-center">
+							<img class="bernstein-1" src="/assets/bernstein-1-faa5d13e.png" alt="">
+						</div>
+						<p class="mt-4">
+							Der Punkt an der Stelle <span
+								class="is-family-roman is-italic is-size-5 has-line-height-fixed">t</span> kann dann durch die
+							gewichtete Summe aller Kontrollpunkte errechnet werden:
+						</p>
+						<div class="mt-4 is-flex is-justify-content-center">
+							<img class="bernstein-2" src="/assets/bernstein-2-7364d1e8.png" alt="">
+						</div>
+						<p class="mt-4">
+							Grafisch gesehen werden die Punktvektoren	mit den entsprechenden Bernstein-Polynomen skaliert und addiert. 
+						</p>
+						<div class="field mt-2">
+							<div class="control">
+								<label class="checkbox">
+									<input id="show-vectors" type="checkbox">
+									Vektoren anzeigen
+								</label>
+							</div>
+						</div>
+						<div id="bernstein_canvas" class="mt-5 mb-4"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
