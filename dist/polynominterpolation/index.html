@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	
+	
+  <script type="module" crossorigin src="/assets/polynom-823df3a0.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-66c2d315.js">
+  <link rel="modulepreload" crossorigin href="/assets/two.module-cd4d32c0.js">
+  <link rel="stylesheet" href="/assets/style-2053df3b.css">
+</head>
+
+<body class="has-background-light">
+	<div class="navbar is-fixed-top">
+		<a class="navbar-item is-tab is-active">
+			Polynominterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/hermite/">
+			Hermiteinterpolation
+		</a>
+		<a class="navbar-item is-tab" href="/bezier/">
+			Bézierkurven
+		</a>
+	</div>
+	<div class="section is-full-height">
+		<div class="columns is-full-height is-align-items-stretch">
+			<div class="column">
+				<div class="box is-full-height">
+					<div class="is-full-height" id="poly_canvas"></div>
+				</div>
+			</div>
+			<div class="sidebar column is-flex is-flex-direction-column">
+				<div class="scroll-sidebar">
+					<div class="box">
+						<div class="is-flex is-justify-content-space-between is-align-items-center">
+							<label for="points">Anzahl der Punkte: <span id="pointCount" class="is-family-monospace is-size-5">1</span></label>
+							<button id="new" class="button is-info is-inverted">Neu generieren</button>
+						</div>
+						<input id="points" class="slider is-fullwidth is-info is-circle" type="range" min="1" max="9" step="1"
+							value="1">
+					</div>
+					<div class="box has-text-justified">
+						<p>
+							Bei der Polynominterpolation wird ein Polynom gesucht, das durch die vorgegebenen Punkte verläuft,
+							um so eine gute Kurve zu finden. Verschieb den Slider um Beispiele mit verschiedenen Punkten zu
+							sehen!
+						</p>
+					</div>
+					<div class="box has-text-justified">
+						<h3 class="has-text-weight-bold">Berechnung</h3>
+						<div class="mt-4 is-flex is-justify-content-center">
+							<img class="polynom-1" src="/assets/polynom-1-e4765225.png" alt="">
+						</div>
+						<p class="mt-4">
+							Alle Punkte werden in die allgemeine Polynomformel eingesetzt. Bei <span
+								class="is-family-roman is-italic is-size-5 has-line-height-fixed">n</span> Punkten wählt man ein
+							Polynom vom Grad <span class="is-family-roman is-italic is-size-5 has-line-height-fixed">n -
+								1</span>.
+							Dadurch
+							entsteht ein lineares Gleichungssystem mit <span
+								class="is-family-roman is-italic is-size-5 has-line-height-fixed">n</span> Gleichungen und <span
+								class="is-family-roman is-italic is-size-5 has-line-height-fixed">n</span> Unbekannten.
+							Das LGS ist also lösbar.
+						</p>
+						<p class="mt-2">
+							Als Lösung hat man nun die gesuchten Koeffizienten und kann das Polynom aufstellen
+						</p>
+					</div>
+					<div class="box has-text-justified">
+						<h3 class="has-text-weight-bold">Grenzen der Polynominterpolation</h3>
+						<p>
+							Den Verlauf der Kurve kann man nicht beeinflussen. Das resultierende Polynom hat vielleicht nicht
+							die Form, die man gesucht hat.
+						</p>
+						<p class="mt-2">
+							Leichte Veränderungen in den Positionen der Punkte können große
+							Veränderungen in der Form des Polynoms hervorrufen.
+						</p>
+						<p class="mt-2">
+							Außerdem führt eine hohe Anzahl interpolierter Punkte zu einem unruhigen Polynomverlauf mit großen
+							Ausschlägen.
+						</p>
+						<span>
+							<button id="rootFail" class="button is-info is-light mt-4">Beispiel</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
