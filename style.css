@@ -186,13 +186,21 @@ body>.section {
 }
 
 #intro-text > * {	
-	margin-top: 0pt;
+	margin-top: 100pt;
 	max-width: 45ch;
 }
 
-#curve_canvas {
+.underlineFunction {
+	position: relative;
+	
+}
+
+#curve_canvas, #curve_canvas2 {
+	position: absolute;
 	margin-top: 0pt;
 	height:100pt;
+	left:0;
+	right:0;	
 }
 
 
